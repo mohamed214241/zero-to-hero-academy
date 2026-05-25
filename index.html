@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero To Hero | Zizo-VFX</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  /* شيل كل الـ hints */
+[class*="yts-tip"],
+.vid-tip,
+div[style*="ESC"],
+div[style*="إغلاق"],
+div[style*="Space"] {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+  /* ── Curriculum & Video Improvements ── */
+.sr { cursor: none; transition: all .2s }
+.sr:hover { background: rgba(255,255,255,.02) }
+.sr-n { cursor: none; transition: all .15s }
+.sr-n:hover { background: rgba(200,145,26,.15); color: var(--gold-g) }
+
+.sr-dur { cursor: none; font-size: 11px; color: var(--muted2); font-weight: 600; flex-shrink: 0 }
+
+.ph { cursor: none; transition: all .2s }
+.ph:hover { background: var(--bg3) }
+
+.phase { cursor: none }
+
+/* Video button */
+.sr button[onclick*="openSession"] {
+  cursor: none;
+  transition: all .2s cubic-bezier(.25,.46,.45,.94);
+}
+.sr button[onclick*="openSession"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(200,145,26,.45);
+}
+.sr button[onclick*="openSession"]:active {
+  transform: scale(0.98);
+}
+
+/* Video Modal */
+#vidModal {
+  cursor: default !important;
+}
+/* شيل كل الـ hints */
+#vidModal::before,
+.yts-tip,
+.vid-tip {
+  display: none !important;
+}
+
+/* شيل hint الإغلاق من Hero video إذا كان موجود */
+.hero-video-hint,
+[style*="ESC"],
+[style*="إغلاق"] {
+  display: none !important;
+}
+
+/* Quality button */
+.q-btn {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  background: rgba(0,0,0,.7);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  cursor: none;
+  z-index: 100;
+  transition: all .2s;
+}
+.q-btn:hover {
+  background: rgba(200,145,26,.3);
+  border-color: var(--gold-g);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+:root{--gold:#C8911A;--gg:#E8AB35;--gl:#F5CC70;--gd:#7A5510;--bg:#05070D;--bg2:#090C15;--bg3:#0D1220;--bg4:#121829;--tx:#E8ECF8;--mt:#5E6B8A;--mt2:#3D4760;--br:rgba(255,255,255,.055);--brg:rgba(232,171,53,.18);--grn:#10B981;--red:#EF4444;--blue:#4B7BF5;--r:12px;--r2:18px;}
+*{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Cairo',sans-serif;overflow-x:hidden;cursor:none}
+#c1{position:fixed;width:10px;height:10px;background:var(--gg);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
+#c2{position:fixed;width:34px;height:34px;border:1.5px solid rgba(232,171,53,.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .08s linear}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:13px 5%;background:rgba(5,7,13,.9);backdrop-filter:blur(22px);border-bottom:1px solid var(--br);transition:background .3s}
+nav.s{background:rgba(5,7,13,.98)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:6px;background:linear-gradient(135deg,var(--gl),var(--gg),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:none;text-decoration:none}
+.nl{display:flex;gap:22px;list-style:none}
+.nl a{font-size:12.5px;font-weight:600;color:var(--mt);text-decoration:none;transition:color .2s}
+.nl a:hover{color:var(--gg)}
+.nr{display:flex;align-items:center;gap:8px}
+.npill{display:flex;align-items:center;gap:6px;background:rgba(200,145,26,.09);border:1px solid var(--brg);border-radius:30px;padding:5px 13px}
+.npill-old{font-size:11px;color:var(--mt2);text-decoration:line-through}
+.npill-new{font-size:14px;font-weight:900;color:var(--gg)}
+.npill-disc{background:var(--red);color:#fff;border-radius:7px;padding:2px 6px;font-size:10px;font-weight:900;display:none}
+.btn-cta{background:linear-gradient(135deg,var(--gg),var(--gd));color:#000;font-weight:900;font-size:12.5px;font-family:'Cairo',sans-serif;padding:9px 22px;border-radius:28px;border:none;cursor:none;transition:all .22s;box-shadow:0 4px 18px rgba(200,145,26,.28)}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(200,145,26,.45)}
+.btn-login{background:transparent;color:var(--mt);font-size:12px;font-family:'Cairo',sans-serif;padding:8px 16px;border-radius:28px;border:1px solid var(--br);cursor:none;transition:all .2s;font-weight:600;text-decoration:none;display:inline-block}
+.btn-login:hover{border-color:var(--brg);color:var(--gg)}
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 5% 80px;overflow:hidden}
+#hcvs{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hov{position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% -5%,rgba(26,63,191,.16),transparent 58%),radial-gradient(ellipse 70% 50% at 90% 90%,rgba(200,145,26,.09),transparent),linear-gradient(0deg,var(--bg) 0%,transparent 28%);z-index:1}
+.hc{position:relative;z-index:2;max-width:900px;margin:0 auto}
+.hbadge{display:inline-flex;align-items:center;gap:9px;background:rgba(200,145,26,.09);border:1px solid rgba(232,171,53,.22);border-radius:40px;padding:7px 20px;font-size:11px;font-weight:700;color:var(--gg);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.ldot{width:7px;height:7px;background:#22C55E;border-radius:50%;box-shadow:0 0 7px #22C55E;animation:blink 1.6s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hstart{display:inline-flex;align-items:center;gap:8px;background:rgba(26,63,191,.1);border:1px solid rgba(75,123,245,.2);border-radius:40px;padding:6px 16px;font-size:11px;font-weight:700;color:var(--blue);margin-bottom:22px;margin-right:8px}
+.hw{font-family:'Bebas Neue',sans-serif;line-height:.92}
+.hw-z{font-size:clamp(52px,9vw,112px);letter-spacing:8px;color:rgba(255,255,255,.055);display:block}
+.hw-h{font-size:clamp(56px,10vw,122px);letter-spacing:7px;display:block;background:linear-gradient(135deg,#fff 0%,var(--gl) 30%,var(--gg) 65%,var(--gd) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 55px rgba(200,145,26,.28))}
+.hdesc{font-size:clamp(16px,2.4vw,22px);font-weight:300;color:var(--mt);margin:18px 0 4px;line-height:1.6}
+.hdesc strong{color:var(--tx);font-weight:700}
+.hby{font-size:13px;color:var(--mt2);margin-bottom:32px}
+.hby span{color:var(--gg);font-weight:700}
+/* PRICE BLOCK */
+.pb{display:inline-flex;align-items:center;gap:0;background:rgba(0,0,0,.25);border:1px solid var(--brg);border-radius:20px;padding:18px 34px;margin-bottom:22px;position:relative;backdrop-filter:blur(10px)}
+.pb::before{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(200,145,26,.07),transparent);pointer-events:none}
+.pb-r{text-align:right;padding-left:26px;border-left:1px solid rgba(255,255,255,.07)}
+.pb-r-lbl{font-size:9px;font-weight:700;color:var(--mt2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.pb-old{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--mt2);text-decoration:line-through}
+.pb-l{padding-right:26px;text-align:right}
+.pb-l-lbl{font-size:9px;font-weight:700;color:var(--gg);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.pb-new{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,8vw,74px);letter-spacing:3px;color:#fff;line-height:1}
+.pb-new sup{font-size:.32em;color:var(--gg);vertical-align:super;font-family:'Cairo',sans-serif;font-weight:900}
+.pb-disc{position:absolute;top:-12px;left:-12px;background:linear-gradient(135deg,var(--red),#991B1B);color:#fff;font-size:11px;font-weight:900;padding:5px 13px;border-radius:20px;box-shadow:0 3px 14px rgba(239,68,68,.45);display:none;animation:pop .5s ease}
+@keyframes pop{from{transform:scale(.5) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.pb-save{font-size:12px;color:#4ADE80;font-weight:700;margin-top:4px;display:none}
+/* COUNTDOWN */
+.cdw{margin-bottom:28px}
+.cdw-lbl{font-size:10px;font-weight:700;color:var(--red);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px}
+.cdw-lbl::before,.cdw-lbl::after{content:'';flex:1;max-width:32px;height:1px;background:var(--red);opacity:.4}
+.cdi{display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap}
+.cd-box{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.18);border-radius:10px;padding:11px 14px;min-width:66px;text-align:center}
+.cd-n{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#FCA5A5;line-height:1;filter:drop-shadow(0 0 6px rgba(252,165,165,.3))}
+.cd-l{font-size:9px;color:var(--mt2);font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-top:2px}
+.cd-sep{font-family:'Bebas Neue',sans-serif;font-size:24px;color:rgba(252,165,165,.3);margin-top:-6px}
+/* STATS */
+.hstats{display:flex;justify-content:center;gap:0;margin-bottom:28px;background:rgba(255,255,255,.025);border:1px solid var(--br);border-radius:14px;overflow:hidden;max-width:460px;margin-left:auto;margin-right:auto}
+.hst{flex:1;padding:15px 8px;text-align:center;border-left:1px solid var(--br)}
+.hst:last-child{border-left:none}
+.hst-n{font-family:'Bebas Neue',sans-serif;font-size:33px;color:var(--gg);line-height:1;filter:drop-shadow(0 0 8px rgba(232,171,53,.3))}
+.hst-l{font-size:9px;color:var(--mt2);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-top:3px}
+/* SEATS */
+.seats{margin-bottom:10px}
+.seats-r{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:5px}
+.seats-bar{width:180px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.seats-fill{height:100%;background:linear-gradient(90deg,var(--red),#F97316);border-radius:2px;transition:width 1.5s cubic-bezier(.4,0,.2,1);width:0}
+.seats-txt{font-size:11px;color:var(--mt)}
+.seats-txt strong{color:#FCA5A5}
+/* HERO BTNS */
+.hbtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.btn-hero{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:9px;background:linear-gradient(135deg,var(--gg),var(--gd));color:#000;font-weight:900;font-size:15px;font-family:'Cairo',sans-serif;padding:16px 40px;border-radius:40px;border:none;cursor:none;box-shadow:0 6px 28px rgba(200,145,26,.38);transition:all .22s;overflow:hidden}
+.btn-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent);opacity:0;transition:opacity .22s}
+.btn-hero:hover{transform:translateY(-3px);box-shadow:0 12px 38px rgba(200,145,26,.55)}
+.btn-hero:hover::after{opacity:1}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--tx);font-weight:700;font-size:13.5px;font-family:'Cairo',sans-serif;padding:15px 28px;border-radius:40px;border:1.5px solid var(--br);cursor:none;transition:all .2s}
+.btn-ghost:hover{border-color:var(--brg);color:var(--gg)}
+/* BURST */
+@keyframes bk{0%{font-size:16px;opacity:1;transform:translate(-50%,-50%) scale(1)}100%{font-size:20px;opacity:0;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.35) rotate(var(--r))}}
+/* SECTION */
+section{position:relative;z-index:1;padding:90px 5%}
+.sey{display:flex;align-items:center;gap:12px;font-size:10px;font-weight:700;color:var(--gg);letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.sey::after{content:'';flex:1;max-width:38px;height:1px;background:var(--gg);opacity:.35}
+.sey.c{justify-content:center}
+.sey.c::before{content:'';flex:1;max-width:38px;height:1px;background:var(--gg);opacity:.35}
+.st{font-size:clamp(24px,3.8vw,44px);font-weight:900;line-height:1.15;margin-bottom:12px}
+.ss{font-size:14px;color:var(--mt);line-height:1.8;max-width:540px}
+/* ABOUT */
+.about-g{display:grid;grid-template-columns:320px 1fr;gap:60px;align-items:center}
+.tc{background:var(--bg3);border:1px solid var(--br);border-radius:var(--r2);padding:36px 26px;text-align:center;position:relative;overflow:hidden}
+.tc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,145,26,.07),transparent);pointer-events:none}
+.tc-av{width:120px;height:120px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,var(--gg),var(--gd));padding:3px}
+.tc-av-in{width:100%;height:100%;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:48px}
+.tc-name{font-size:21px;font-weight:900;color:var(--tx);margin-bottom:2px}
+.tc-handle{font-size:14px;color:var(--gg);font-weight:700;margin-bottom:5px}
+.tc-role{font-size:12px;color:var(--mt2);line-height:1.5;margin-bottom:16px}
+.tc-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.chip{background:rgba(200,145,26,.09);border:1px solid rgba(232,171,53,.18);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--gg);font-weight:600}
+.apts{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.apt{display:flex;align-items:flex-start;gap:13px;padding:13px;background:var(--bg3);border:1px solid var(--br);border-radius:var(--r);transition:border-color .2s,transform .2s}
+.apt:hover{border-color:var(--brg);transform:translateX(-3px)}
+.apt-ic{width:40px;height:40px;flex-shrink:0;border-radius:9px;background:rgba(200,145,26,.08);border:1px solid rgba(232,171,53,.16);display:flex;align-items:center;justify-content:center;font-size:19px}
+.apt-t{font-size:13px;color:var(--mt);line-height:1.65}
+.apt-t strong{color:var(--tx);display:block;margin-bottom:2px;font-size:13.5px}
+/* FEATURES */
+.feat-s{background:var(--bg2);border-top:1px solid var(--br);border-bottom:1px solid var(--br)}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:48px}
+.fc{background:var(--bg3);border:1px solid var(--br);border-radius:var(--r2);padding:23px 19px;position:relative;overflow:hidden;transition:all .25s;cursor:none}
+.fc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,145,26,.05),transparent);opacity:0;transition:opacity .25s}
+.fc:hover{border-color:rgba(232,171,53,.3);transform:translateY(-5px);box-shadow:0 12px 36px rgba(0,0,0,.3)}
+.fc:hover::before{opacity:1}
+.fc.star{grid-column:span 3;background:linear-gradient(135deg,rgba(200,145,26,.11),rgba(200,145,26,.03));border-color:rgba(232,171,53,.28);display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.fc.star:hover{transform:none}
+.fc.star::after{content:'الأبرز ★';position:absolute;top:12px;left:14px;background:rgba(200,145,26,.15);border:1px solid rgba(232,171,53,.25);border-radius:12px;padding:2px 10px;font-size:10px;font-weight:700;color:var(--gg)}
+.fic{width:48px;height:48px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:13px;flex-shrink:0}
+.fc.star .fic{width:60px;height:60px;font-size:29px;margin-bottom:0}
+.fig{background:rgba(200,145,26,.1);border:1px solid rgba(232,171,53,.2)}
+.fib{background:rgba(26,63,191,.1);border:1px solid rgba(75,123,245,.2)}
+.figr{background:rgba(4,120,87,.1);border:1px solid rgba(16,185,129,.2)}
+.fip{background:rgba(109,40,217,.1);border:1px solid rgba(139,92,246,.2)}
+.fir{background:rgba(185,28,28,.1);border:1px solid rgba(239,68,68,.2)}
+.fit{background:rgba(13,148,136,.1);border:1px solid rgba(20,184,166,.2)}
+.fio{background:rgba(194,65,12,.1);border:1px solid rgba(249,115,22,.2)}
+.ft{font-size:14.5px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.fd{font-size:12.5px;color:var(--mt);line-height:1.72}
+/* CURRICULUM */
+.curr-s{border-top:1px solid var(--br)}
+.phase{border:1px solid var(--br);border-radius:var(--r2);margin-bottom:9px;overflow:hidden;transition:border-color .25s}
+.phase.open{border-color:rgba(232,171,53,.28)}
+.ph{display:flex;align-items:center;gap:14px;padding:17px 20px;cursor:none;background:var(--bg2);transition:background .2s;user-select:none}
+.ph:hover{background:var(--bg3)}
+.ph-n{font-family:'Bebas Neue',sans-serif;font-size:42px;color:rgba(255,255,255,.065);line-height:1;min-width:48px;transition:color .3s}
+.phase.open .ph-n{color:var(--gg)}
+.ph-info{flex:1}
+.ph-tag{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gg);margin-bottom:3px}
+.ph-title{font-size:17px;font-weight:700;color:var(--tx)}
+.ph-meta{font-size:11px;color:var(--mt2);margin-top:2px}
+.ph-arr{font-size:15px;color:var(--mt2);transition:transform .3s,color .3s}
+.phase.open .ph-arr{transform:rotate(90deg);color:var(--gg)}
+.ph-body{display:none;background:var(--bg2)}
+.phase.open .ph-body{display:block}
+.sr{display:flex;align-items:center;gap:12px;padding:13px 20px;border-top:1px solid var(--br);transition:background .2s}
+.sr:hover{background:rgba(255,255,255,.018)}
+.sr-n{min-width:27px;height:27px;border-radius:6px;background:rgba(200,145,26,.09);border:1px solid rgba(232,171,53,.18);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gg);flex-shrink:0}
+.sr-info{flex:1}
+.sr-title{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.sr-topics{display:flex;flex-wrap:wrap;gap:4px}
+.sr-tp{background:rgba(255,255,255,.04);border:1px solid var(--br);border-radius:6px;padding:1px 7px;font-size:10px;color:var(--mt2)}
+.sr-dur{font-size:10px;color:var(--mt2);font-weight:600;flex-shrink:0}
+.free-tag{background:rgba(4,120,87,.12);border:1px solid rgba(16,185,129,.22);border-radius:5px;padding:1px 7px;font-size:9px;color:var(--grn);font-weight:700;margin-left:6px}
+/* TESTIMONIALS */
+.test-s{background:var(--bg2);border-top:1px solid var(--br)}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:44px}
+.tcard{background:var(--bg3);border:1px solid var(--br);border-radius:var(--r2);overflow:hidden;transition:all .25s}
+.tcard:hover{border-color:rgba(232,171,53,.25);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+.tcard-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .4s}
+.tcard:hover .tcard-img{transform:scale(1.05)}
+.tcard-iw{position:relative;overflow:hidden}
+.tcard-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,7,13,.95) 0%,rgba(5,7,13,.2) 55%,transparent 100%)}
+.tcard-stars-ov{position:absolute;bottom:10px;right:12px;color:var(--gg);font-size:12px;letter-spacing:2px}
+.tcard-ph{width:100%;aspect-ratio:4/3;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--mt2)}
+.tcard-body{padding:15px 15px 17px}
+.tcard-stars{color:var(--gg);font-size:12px;letter-spacing:2px;margin-bottom:7px}
+.tcard-q{font-size:12.5px;color:var(--mt);line-height:1.78;margin-bottom:12px;font-style:italic}
+.tcard-au{display:flex;align-items:center;gap:9px}
+.tcard-av{width:35px;height:35px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,var(--gg),var(--gd));display:flex;align-items:center;justify-content:center;font-size:14px}
+.tcard-av img{width:100%;height:100%;object-fit:cover}
+.tcard-name{font-size:13px;font-weight:700;color:var(--tx)}
+.tcard-role{font-size:10px;color:var(--mt2)}
+.t-empty{grid-column:span 3;text-align:center;padding:56px;color:var(--mt2);border:1.5px dashed rgba(255,255,255,.05);border-radius:var(--r2);font-size:14px}
+/* RATING */
+.rating-box{background:var(--bg3);border:1px solid var(--br);border-radius:var(--r2);padding:22px;margin-top:26px;display:none}
+.rating-box.show{display:block}
+.rb-title{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:14px}
+.stars-in{display:flex;gap:6px;margin-bottom:12px;flex-direction:row-reverse;justify-content:flex-end}
+.star-b{font-size:28px;color:var(--mt2);cursor:none;transition:all .15s;background:none;border:none;padding:2px}
+.star-b:hover,.star-b.lit{color:var(--gg);text-shadow:0 0 10px rgba(232,171,53,.5);transform:scale(1.15)}
+.ri{width:100%;background:var(--bg4);border:1.5px solid var(--br);border-radius:var(--r);padding:11px 13px;font-family:'Cairo',sans-serif;font-size:13px;color:var(--tx);outline:none;transition:border-color .2s;margin-bottom:8px}
+.ri:focus{border-color:rgba(232,171,53,.4)}
+.ri::placeholder{color:var(--mt2)}
+textarea.ri{resize:none;height:78px}
+.rb-btn{background:linear-gradient(135deg,var(--gg),var(--gd));color:#000;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;padding:11px 24px;border-radius:28px;border:none;cursor:none;transition:all .2s}
+.rb-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,145,26,.35)}
+/* FAQ */
+.faq-s{border-top:1px solid var(--br)}
+.faq-w{max-width:720px;margin:44px auto 0}
+.faq-item{border:1px solid var(--br);border-radius:var(--r);margin-bottom:8px;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:rgba(232,171,53,.28)}
+.fq{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 19px;cursor:none;font-size:13.5px;font-weight:700;color:var(--tx);background:var(--bg2);transition:background .2s;user-select:none}
+.fq:hover{background:var(--bg3)}
+.farr{font-size:18px;color:var(--mt2);transition:transform .3s,color .3s;flex-shrink:0}
+.faq-item.open .farr{transform:rotate(45deg);color:var(--gg)}
+.fa{display:none;padding:0 19px 16px;background:var(--bg2);font-size:13px;color:var(--mt);line-height:1.82}
+.faq-item.open .fa{display:block}
+/* PAYMENT */
+.pay-s{background:var(--bg2);border-top:1px solid var(--br)}
+.pay-g{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:36px}
+.payc{background:var(--bg3);border:1px solid var(--br);border-radius:var(--r2);padding:26px 22px;position:relative;overflow:hidden;transition:all .25s;cursor:none}
+.payc:hover{border-color:rgba(232,171,53,.3);transform:translateY(-3px)}
+.payc-glow{position:absolute;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(200,145,26,.1),transparent);top:-25px;left:-25px;pointer-events:none}
+.payc-logo{font-size:32px;margin-bottom:11px}
+.payc-name{font-size:18px;font-weight:900;color:var(--tx);margin-bottom:3px}
+.payc-nl{font-size:11px;color:var(--mt2);margin-bottom:7px}
+.payc-num{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--gg);background:rgba(200,145,26,.07);border:1px solid rgba(232,171,53,.16);border-radius:9px;padding:9px 14px;display:inline-block;margin-bottom:10px}
+.copy-btn{display:flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--br);color:var(--mt);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;padding:7px 14px;border-radius:25px;cursor:none;transition:all .2s}
+.copy-btn:hover{border-color:rgba(232,171,53,.35);color:var(--gg)}
+.copy-btn.c{border-color:rgba(16,185,129,.35);color:var(--grn)}
+.pay-steps{margin-top:15px;display:flex;flex-direction:column;gap:6px}
+.ps{display:flex;align-items:flex-start;gap:9px}
+.ps-n{width:18px;height:18px;border-radius:5px;background:rgba(200,145,26,.09);border:1px solid rgba(232,171,53,.18);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gg);flex-shrink:0;margin-top:2px}
+.ps-t{font-size:12px;color:var(--mt);line-height:1.6}
+.ps-t strong{color:var(--tx)}
+/* AI */
+.ai-fab{position:fixed;bottom:26px;left:26px;z-index:600;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+.ai-pan{background:linear-gradient(160deg,#090f1d,#0e1829);border:1px solid rgba(200,145,26,.28);border-radius:20px;width:355px;max-height:490px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.75);animation:panUp .32s ease}
+.ai-pan.open{display:flex}
+@keyframes panUp{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.ai-hdr{background:linear-gradient(135deg,rgba(200,145,26,.13),rgba(200,145,26,.03));border-bottom:1px solid rgba(200,145,26,.14);padding:13px 15px;display:flex;align-items:center;gap:10px}
+.ai-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gg),var(--gd));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 0 14px rgba(200,145,26,.3)}
+.ai-nm{font-size:13px;font-weight:700;color:var(--tx)}
+.ai-on{font-size:10px;color:var(--grn);display:flex;align-items:center;gap:5px}
+.ai-on::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--grn)}
+.ai-x{background:transparent;border:none;color:var(--mt2);font-size:16px;cursor:none;margin-right:auto;padding:3px;transition:color .2s;line-height:1}
+.ai-x:hover{color:var(--tx)}
+.ai-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:10px;max-height:310px}
+.ai-msgs::-webkit-scrollbar{width:3px}
+.ai-msgs::-webkit-scrollbar-thumb{background:rgba(200,145,26,.2);border-radius:2px}
+.msg{max-width:88%;padding:9px 13px;font-size:12.5px;line-height:1.65;animation:msgIn .22s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.msg.bot{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);color:var(--tx);align-self:flex-start;border-radius:4px 13px 13px 13px}
+.msg.user{background:linear-gradient(135deg,rgba(200,145,26,.2),rgba(200,145,26,.09));border:1px solid rgba(232,171,53,.2);color:var(--tx);align-self:flex-end;border-radius:13px 4px 13px 13px}
+.ai-quick{padding:0 13px 9px;display:flex;flex-wrap:wrap;gap:5px}
+.ai-qb{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:4px 11px;font-size:11px;color:var(--mt);cursor:none;transition:all .18s;font-family:'Cairo',sans-serif}
+.ai-qb:hover{border-color:rgba(232,171,53,.3);color:var(--gg);background:rgba(200,145,26,.07)}
+.ai-ir{padding:10px 13px;border-top:1px solid rgba(255,255,255,.05);display:flex;gap:7px}
+.ai-inp{flex:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px 12px;font-family:'Cairo',sans-serif;font-size:12.5px;color:var(--tx);outline:none;transition:border-color .2s}
+.ai-inp:focus{border-color:rgba(232,171,53,.35)}
+.ai-inp::placeholder{color:var(--mt2)}
+.ai-snd{background:linear-gradient(135deg,var(--gg),var(--gd));color:#000;border:none;border-radius:9px;padding:9px 14px;font-size:14px;cursor:none;transition:transform .15s;font-weight:900}
+.ai-snd:hover{transform:scale(1.07)}
+.ai-btn{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gg),var(--gd));border:none;font-size:22px;cursor:none;box-shadow:0 6px 26px rgba(200,145,26,.45);transition:all .22s;display:flex;align-items:center;justify-content:center;position:relative}
+.ai-btn:hover{transform:scale(1.08);box-shadow:0 10px 34px rgba(200,145,26,.6)}
+.ai-ntf{position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:var(--red);border-radius:50%;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+/* WA */
+.wa{position:fixed;bottom:26px;right:26px;z-index:400;background:linear-gradient(135deg,#16A34A,#15803D);border-radius:46px;padding:12px 18px;display:flex;align-items:center;gap:8px;text-decoration:none;box-shadow:0 6px 22px rgba(22,163,74,.4);transition:transform .2s;cursor:none}
+.wa:hover{transform:translateY(-3px)}
+.wa span{font-size:12.5px;font-weight:700;color:#fff}
+/* TOAST */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--bg3);border:1px solid var(--br);border-radius:11px;padding:11px 20px;font-size:12.5px;font-weight:600;color:var(--tx);z-index:2000;opacity:0;transition:all .32s;white-space:nowrap;display:flex;align-items:center;gap:7px;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.s{border-color:rgba(16,185,129,.35);color:var(--grn)}
+.toast.e{border-color:rgba(239,68,68,.35);color:var(--red)}
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--br);padding:44px 5% 28px;text-align:center}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:27px;letter-spacing:6px;background:linear-gradient(135deg,var(--gl),var(--gg));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.fs{font-size:12px;color:var(--mt2);margin-bottom:20px;line-height:1.65}
+.flinks{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}
+.flinks a{font-size:12px;color:var(--mt2);text-decoration:none;transition:color .2s;font-weight:600}
+.flinks a:hover{color:var(--gg)}
+.fcopy{font-size:11px;color:rgba(62,71,96,.45)}
+/* استبدل كامل الـ CSS القديم بـ: */
+
+/* ── Professional Video Player (YouTube Style) ── */
+#vidModal {
+  cursor: default !important;
+  background: rgba(0,0,0,.965) !important;
+  backdrop-filter: blur(35px);
+}
+
+#vidModal > div {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0,0,0,.92),0 0 3px rgba(200,145,26,.5);
+  border: 1px solid rgba(255,255,255,.15);
+  background: #0a0a0f;
+}
+
+#vidPlayer {
+  position: relative;
+  background: #000;
+  min-height: 500px;
+  aspect-ratio: 16/9;
+}
+
+.yt-wrap { width: 100%; height: 100%; position: relative; background: #000; }
+
+.yt-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.8);
+  z-index: 30;
+}
+
+.yt-spin {
+  width: 45px;
+  height: 45px;
+  border: 3px solid rgba(255,255,255,.15);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+.yt-loading-text { color: #aaa; font-size: 12px; margin-top: 10px; }
+.yt-error { color: #ff4444; font-size: 13px; background: rgba(255,0,0,.1); padding: 10px 20px; border-radius: 8px; }
+
+.yt-center-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.3);
+  cursor: pointer;
+  z-index: 25;
+  transition: opacity .3s;
+}
+
+.yt-play-btn {
+  width: 70px;
+  height: 70px;
+  background: rgba(255,255,255,.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #0f0f1f;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5);
+  transition: transform .2s;
+}
+
+.yt-center-play:hover .yt-play-btn { transform: scale(1.1); }
+
+.yt-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(rgba(0,0,.7), transparent);
+  z-index: 20;
+}
+
+.yt-title { color: #fff; font-size: 14px; font-weight: 600; }
+
+.yt-top-btn {
+  background: rgba(255,255,255,.1);
+  border: none;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.yt-quality-btn {
+  position: absolute;
+  top: 12px;
+  right: 60px;
+  background: rgba(0,0,.6);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.yt-quality-badge { background: #f00; padding: 2px 4px; border-radius: 2px; font-size: 10px; font-weight: 700; }
+.yt-arrow { font-size: 10px; }
+
+.yt-quality-menu {
+  position: absolute;
+  top: 52px;
+  right: 12px;
+  background: rgba(20,20,25,.95);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 170px;
+  z-index: 30;
+}
+
+.yt-quality-menu.show { display: flex; }
+
+.yt-quality-header { color: #888; font-size: 11px; padding: 8px 14px 4px; }
+
+.yt-quality-option {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: right;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.yt-quality-option:hover { background: rgba(255,255,255,.08); }
+.yt-quality-option.active { color: #107516; font-weight: 600; }
+
+.yt-controls-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent,rgba(0,0,.85));
+  padding: 60px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+}
+
+.yt-progress-container { width: 100%; cursor: pointer; padding: 8px 0; }
+.yt-progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,.2); border-radius: 2px; position: relative; }
+.yt-progress-fill { height: 100%; background: #f00; border-radius: 2px; width: 0%; position: relative; z-index: 2; }
+.yt-buffered { position: absolute; top: 0; left: 0; height: 100%; background: rgba(255,255,255,.3); border-radius: 2px; z-index: 1; }
+.yt-progress-container:hover .yt-progress-bar { height: 6px; }
+
+.yt-controls-row { display: flex; align-items: center; justify-content: space-between; }
+
+.yt-ctrl-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all .2s;
+}
+
+.yt-ctrl-btn:hover { background: rgba(255,255,255,.15); }
+
+.yt-time { color: #fff; font-size: 12px; font-family: monospace; opacity: .9; }
+
+.yt-tip {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,.5);
+}
+/* ── Video Modal YouTube Style ── */
+#vidModal { 
+  cursor: default !important;
+  background: #000 !important;
+}
+
+#vidModal > div {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(0,0,0,.8);
+}
+
+#vidPlayer {
+  background: #000;
+  aspect-ratio: 16/9;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+/* ── GIFTS ── */
+.gift-s{background:var(--bg2);border-top:1px solid var(--br)}
+.gift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+.gift-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:20px 16px;text-align:center;transition:all .25s;cursor:none}
+.gift-card:hover{border-color:rgba(200,145,26,.35);transform:translateY(-5px)}
+.gift-card-ic{font-size:36px;margin-bottom:12px}
+.gift-card-t{font-size:14px;font-weight:700;color:var(--tx);margin-bottom:6px}
+.gift-card-d{font-size:12px;color:var(--mt);line-height:1.5;margin-bottom:12px}
+.gift-card-btn{background:linear-gradient(135deg,var(--gold-g),var(--gold-d));color:#000;font-size:11px;font-weight:700;padding:8px 16px;border-radius:20px;border:none;cursor:pointer}
+.gift-locked{text-align:center;padding:50px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);margin-top:36px}
+.gl-icon{font-size:56px;margin-bottom:16px}
+.gl-title{font-size:20px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.gl-desc{font-size:14px;color:var(--mt);margin-bottom:20px}
+@media(max-width:768px){.gift-grid{grid-template-columns:repeat(2,1fr)}}
+/* RESPONSIVE */
+@media(max-width:900px){.about-g{grid-template-columns:1fr}.tc{max-width:360px;margin:0 auto}}
+/* 🎬 Video Player YouTube Style */
+.yt-wrap{width:100%;height:100%;position:relative;background:#000}
+.yt-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:30}
+.yt-spin{width:45px;height:45px;border:3px solid rgba(255,255,255,.15);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.yt-center-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);cursor:pointer;z-index:25}
+.yt-play-btn{width:70px;height:70px;background:rgba(255,255,255,.95);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:#0f0f1f;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.yt-top-bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:linear-gradient(rgba(0,0,.7),transparent);z-index:20}
+.yt-title{color:#fff;font-size:14px;font-weight:600}
+.yt-top-btn{background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:14px}
+.yt-controls-bottom{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,.85));padding:60px 14px 14px;display:flex;flex-direction:column;gap:8px;z-index:20}
+.yt-progress-container{width:100%;cursor:pointer;padding:8px 0}
+.yt-progress-bar{width:100%;height:4px;background:rgba(255,255,255,.2);border-radius:2px;position:relative}
+.yt-progress-fill{height:100%;background:#f00;border-radius:2px;width:0;position:relative;z-index:2}
+.yt-buffered{position:absolute;top:0;left:0;height:100%;background:rgba(255,255,255,.3);border-radius:2px;z-index:1}
+.yt-progress-container:hover .yt-progress-bar{height:6px}
+.yt-controls-row{display:flex;align-items:center;justify-content:space-between}
+.yt-ctrl-btn{background:transparent;border:none;color:#fff;font-size:16px;padding:8px;cursor:pointer;border-radius:50%;transition:all .2s}
+.yt-ctrl-btn:hover{background:rgba(255,255,255,.15)}
+.yt-time{color:#fff;font-size:12px;font-family:monospace;opacity:.9}
+.yt-tip{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:rgba(0,0,.5);padding:5px 10px;border-radius:4px;font-size:10px;color:rgba(255,255,255,.5)}
+@media(max-width:768px){.nl,.npill{display:none}.fg,.tg,.pay-g{grid-template-columns:1fr}.fc.star{grid-template-columns:1fr}.hw-z,.hw-t{display:none}.ai-pan{width:calc(100vw - 32px)}}
+/* ── Video Modal ── */
+#vidModal {
+  cursor: default !important;
+  background: rgba(0,0,0,.96) !important;
+  backdrop-filter: blur(20px);
+}
+
+#vidModal > div {
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0,0,0,.85), 0 0 2px rgba(200,145,26,.4);
+  border: 1px solid rgba(255,255,255,.12);
+  background: #0d0d14;
+}
+
+#vidPlayer {
+  position: relative;
+  background: #000;
+  min-height: 520px;
+  aspect-ratio: 16/9;
+}
+
+/* Controls */
+.vid-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px;
+  background: linear-gradient(transparent, rgba(0,0,.85));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.vid-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.vid-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #E8AB35, #C8911A);
+  border-radius: 3px;
+  width: 0%;
+  position: relative;
+}
+
+.vid-progress:hover .vid-progress {
+  height: 7px;
+}
+
+.vid-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vid-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background .2s;
+}
+
+.vid-btn:hover {
+  background: rgba(255,255,255,.15);
+}
+
+.vid-time {
+  color: #fff;
+  font-size: 12px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.vid-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vid-close {
+  background: rgba(255,255,255,.1);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.vid-center-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.35);
+  cursor: pointer;
+  z-index: 25;
+  transition: opacity .3s;
+}
+
+.vid-play-btn {
+  width: 70px;
+  height: 70px;
+  background: rgba(255,255,255,.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #0a0a0f;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5);
+  transition: transform .2s;
+}
+
+.vid-center-play:hover .vid-play-btn {
+  transform: scale(1.1);
+  background: #fff;
+}
+
+.vid-tip {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,.5);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,.5);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Video Player */
+#vidPlayer {
+  width: 100%;
+  max-width: 1200px;
+  aspect-ratio: 16/9;
+  background: #000;
+  position: relative;
+  transition: all .3s ease;
+}
+
+/* Fullscreen Mode */
+#vidPlayer:fullscreen,
+#vidPlayer:-webkit-full-screen {
+  max-width: 100% !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  aspect-ratio: auto !important;
+}
+
+/* Modal in Fullscreen */
+#vidModal:fullscreen,
+#vidModal:-webkit-full-screen {
+  background: #000 !important;
+}
+
+#vidModal:fullscreen #vidPlayer,
+#vidModal:-webkit-full-screen #vidPlayer {
+  max-width: 100% !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  aspect-ratio: auto !important;
+}
+/* ── YouTube Style Video Player ── */
+.yts-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.yts-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+
+/* Center Play Button */
+.yts-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.35);
+  cursor: pointer;
+  transition: opacity .3s;
+  z-index: 20;
+}
+
+.yts-center:hover { background: rgba(0,0,0,.25); }
+
+.yts-pbtn {
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #0f0f1f;
+  box-shadow: 0 8px 30px rgba(0,0,0,.5);
+  transition: transform .2s;
+}
+
+.yts-center:hover .yts-pbtn { transform: scale(1.1); }
+
+/* Top Bar */
+.yts-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: linear-gradient(180deg,rgba(0,0,0,.75),transparent);
+  z-index: 15;
+}
+
+.yts-ttl {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.yts-xbtn {
+  background: rgba(255,255,255,.1);
+  border: none;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background .2s;
+}
+
+.yts-xbtn:hover { background: rgba(255,255,255,.25); }
+
+/* Controls Bottom */
+.yts-btm {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent,rgba(0,0,0,.85));
+  padding: 50px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 15;
+}
+
+/* Progress Bar */
+.yts-pro {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  transition: height .15s;
+}
+
+.yts-pro:hover { height: 7px; }
+
+.yts-fill {
+  height: 100%;
+  background: #f00;
+  border-radius: 3px;
+  width: 0%;
+  position: relative;
+  z-index: 2;
+}
+
+.yts-fill::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: #f00;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.yts-pro:hover .yts-fill::after { opacity: 1; }
+
+/* Buttons Row */
+.yts-btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.yts-lft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yts-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yts-btn:hover { background: rgba(255,255,255,.15); }
+
+.yts-time {
+  color: #fff;
+  font-size: 12px;
+  font-family: monospace;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.yts-rgt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.yts-qbtn {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .2s;
+}
+
+.yts-qbtn:hover { background: rgba(255,255,255,.2); }
+
+/* Quality Menu */
+.yts-qmenu {
+  position: absolute;
+  bottom: 65px;
+  right: 12px;
+  background: rgba(25,25,30,.95);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  padding: 6px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 25;
+}
+
+.yts-qmenu.show { display: flex; }
+
+.yts-qopt {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  text-align: right;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.yts-qopt:hover { background: rgba(255,255,255,.1); }
+
+.yts-qopt.active { color: #107516; font-weight: 700; }
+
+/* Tip */
+.yts-tip {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,.55);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,.6);
+}
+/* شيل ::before من vidModal */
+#vidModal::before { display: none !important; }
+
+/* شيل yts-tip من الفيديو */
+.yts-tip { display: none !important; }
+</style>
+</head>
+<body>
+<div id="c1"></div><div id="c2"></div>
+<div class="toast" id="toast"></div>
+<a class="wa" href="https://wa.me/201095822948" target="_blank"><span style="font-size:20px">💬</span><span>تواصل معنا</span></a>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="index.html">ZIZO-VFX</a>
+  <ul class="nl">
+    <li><a href="#about">المدرب</a></li>
+    <li><a href="#features">المميزات</a></li>
+    <li><a href="#curriculum">المنهج</a></li>
+    <li><a href="#testimonials">آراء الطلاب</a></li>
+    <li><a href="#faq">الأسئلة</a></li>
+    <li><a href="#payment">الدفع</a></li>
+  </ul>
+  <div class="nr">
+    <div class="npill">
+      <span class="npill-old">3000 ج</span>
+      <span class="npill-new" id="npNew">2500 ج</span>
+      <span class="npill-disc" id="npDisc">-25%</span>
+    </div>
+    <a class="btn-login" href="login (1).html">دخول</a>
+    <button class="btn-cta" onclick="goReg(event)">سجّل الآن</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="hcvs"></canvas>
+  <div class="hov"></div>
+  <div class="hc">
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <div class="hbadge"><span class="ldot"></span>التسجيل مفتوح الآن</div>
+      <div class="hstart">📅 يبدأ <span id="startDate">6 يونيو 2026</span></div>
+    </div>
+    <div class="hw">
+      <span class="hw-z">ZERO</span>
+      <span class="hw-h">TO HERO</span>
+    </div>
+    <div class="hdesc">تحوّل من مبتدئ إلى <strong>مونتير محترف فاهم المونتاج فعلا</strong></div>
+    <div class="hby">مع <span>محمد رضا</span> — Zizo-VFX · خبرة +3 سنوات</div>
+
+    <div style="display:flex;justify-content:center;margin-bottom:22px">
+      <div class="pb" id="priceBox">
+        <div class="pb-disc" id="pbDisc">خصم 25% 🔥</div>
+        <div class="pb-l">
+          <div class="pb-l-lbl">سعر الاشتراك</div>
+          <div class="pb-new"><sup>EGP</sup><span id="pbFinal">2500</span></div>
+          <div class="pb-save" id="pbSave"></div>
+        </div>
+        <div class="pb-r">
+          <div class="pb-r-lbl">السعر الأصلي</div>
+          <div class="pb-old" id="pbOld">3000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cdw">
+      <div class="cdw-lbl">الخصم ينتهي بعد</div>
+      <div class="cdi">
+        <div class="cd-box"><div class="cd-n" id="cdd">--</div><div class="cd-l">يوم</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-n" id="cdh">--</div><div class="cd-l">ساعة</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-n" id="cdm">--</div><div class="cd-l">دقيقة</div></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-box"><div class="cd-n" id="cds">--</div><div class="cd-l">ثانية</div></div>
+      </div>
+    </div>
+
+    <div class="hstats">
+      <div class="hst"><div class="hst-n">12</div><div class="hst-l">حصة</div></div>
+      <div class="hst"><div class="hst-n" id="regN">0</div><div class="hst-l">مسجّل</div></div>
+      <div class="hst"><div class="hst-n">90</div><div class="hst-l">د/حصة</div></div>
+      <div class="hst"><div class="hst-n">∞</div><div class="hst-l">دعم</div></div>
+    </div>
+
+    <div class="seats">
+      <div class="seats-r">
+        <div class="seats-bar"><div class="seats-fill" id="sf"></div></div>
+        <div class="seats-txt">حُجز <strong id="sn">0</strong> من 20 مكان</div>
+      </div>
+      <div style="font-size:11px;color:var(--mt2);text-align:center">تبقّى <strong id="sl" style="color:#FCA5A5">20</strong> مكان فقط!</div>
+    </div>
+
+    <div class="hbtns">
+      <button class="btn-hero" onclick="goReg(event)">🎬 سجّل الآن</button>
+      <button class="btn-ghost" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">شوف المنهج ↓</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-g">
+    <div class="tc">
+      <div class="tc-av"><div class="tc-av-in">🎬</div></div>
+      <div class="tc-name">محمد رضا</div>
+      <div class="tc-handle">Zizo-VFX</div>
+      <div class="tc-role">مونتير ومصمم موشن جرافيك<br>متخصص في الإنتاج الرقمي والإعلاني</div>
+      <div class="tc-chips">
+        <span class="chip">+3 سنوات</span><span class="chip">Premiere Pro</span>
+        <span class="chip">After Effects</span><span class="chip">Color Grading</span>
+      </div>
+    </div>
+    <div>
+      <div class="sey">عن المدرب</div>
+      <div class="st">مش بس بيعلّمك —<br><span style="background:linear-gradient(135deg,var(--gl),var(--gg));-webkit-background-clip:text;-webkit-text-fill-color:transparent">بيبني معاك مشوارك</span></div>
+      <div class="ss">محمد رضا مونتير محترف بخبرة أكثر من 3 سنوات في الإنتاج الرقمي. يؤمن أن التعليم الحقيقي يكون من خلال المشاريع الحقيقية — مش الأمثلة الاصطناعية.</div>
+      <div class="apts">
+        <div class="apt"><div class="apt-ic">🎯</div><div class="apt-t"><strong>تعليم مبني على مشاريع حقيقية</strong>كل درس بتشتغل على footage حقيقية من مشاريع فعلية.</div></div>
+        <div class="apt"><div class="apt-ic">🤝</div><div class="apt-t"><strong>دعم مفتوح بلا حدود زمنية</strong>سؤال بعد الكورس بأشهر؟ أنا هنا.</div></div>
+        <div class="apt"><div class="apt-ic">💼</div><div class="apt-t"><strong>خروج بخطة freelance جاهزة</strong>portfolio + تسعير + أدوات جذب عملاء.</div></div>
+        <div class="apt"><div class="apt-ic">🏆</div><div class="apt-t"><strong>شفافية تامة في التعليم</strong>بيشتغل بضمير — مش بيتجاوز أي معلومة.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feat-s" id="features">
+  <div style="text-align:center;margin-bottom:0">
+    <div class="sey c">المميزات</div>
+    <div class="st" style="text-align:center">منظومة متكاملة تحوّل مستواك</div>
+    <div class="ss" style="margin:0 auto;text-align:center">مش كورس عادي — كل اللي تحتاجه من أدوات ودعم ومهارات</div>
+  </div>
+  <div class="fg">
+    <div class="fc star">
+      <div class="fic fig">🔑</div>
+      <div><div class="ft">Adobe Creative Cloud على حساب الكورس طول مدته</div><div class="fd">Premiere Pro وAfter Effects متاحين ليك رسمياً من أول يوم لآخر يوم — بدون أي تكلفة إضافية. وفّر أكثر من 50 دولار وابدأ فوراً.</div></div>
+    </div>
+    <div class="fc"><div class="fic fib">🎥</div><div class="ft">Premiere Pro من الصفر للاحتراف</div><div class="fd">رحلة منظّمة من فتح البرنامج لتسليم فيديو احترافي — قطع، صوت، ألوان، مؤثرات وتصدير.</div></div>
+    <div class="fc"><div class="fic fip">✨</div><div class="ft">After Effects — Motion Graphics عملي</div><div class="fd">إنترو، Lower Thirds، نصوص متحركة وعناصر بصرية تضيف حياة لأي فيديو.</div></div>
+    <div class="fc"><div class="fic fig">🎨</div><div class="ft">Color Grading بأسلوب سينمائي</div><div class="fd">من التصحيح اللوني الأساسي لتوقيع بصري خاص بك + بناء LUT مخصص وبيعه.</div></div>
+    <div class="fc"><div class="fic figr">💼</div><div class="ft">Freelancer جاهز من اليوم الأول بعد الكورس</div><div class="fd">Portfolio احترافي، تسعير مدروس، وأدوات الحصول على العملاء عبر Upwork وFiverr.</div></div>
+    <div class="fc"><div class="fic fit">⚡</div><div class="ft">Workflow يضاعف إنتاجيتك</div><div class="fd">Proxies، Multi-Camera، Nested Sequences وأدوات الذكاء الاصطناعي في Premiere.</div></div>
+    <div class="fc"><div class="fic fir">🤝</div><div class="ft">دعم مستمر بدون توقيت</div><div class="fd">العلاقة مع الطالب لا تنتهي بانتهاء الكورس — سؤال بعد ستة أشهر يجد إجابة.</div></div>
+    <div class="fc"><div class="fic fib">⏺️</div><div class="ft">تسجيلات كل الحصص</div><div class="fd">كل حصة بث مباشر تُسجَّل وترسل لك خلال 24 ساعة بجودة كاملة.</div></div>
+    <div class="fc"><div class="fic fio">🏅</div><div class="ft">شهادة إتمام</div><div class="fd">بعد إنهاء الكورس تحصل على شهادة باسمك تُضاف على LinkedIn وملف أعمالك.</div></div>
+    <div class="fc"><div class="fic fio">🎁</div><div class="ft">هدايا حصرية</div><div class="fd">Adobe CC مجاني، LUTs، SFX، هدايا وجوايز خاصة بالمشتركين.</div></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curr-s" id="curriculum">
+  <div style="margin-bottom:44px">
+    <div class="sey">المنهج الدراسي</div>
+    <div class="st">12 حصة · 3 مراحل · نتيجة واحدة</div>
+    <div class="ss">مسار مصمم بعناية من نقطة الصفر إلى مستوى يؤهّلك للعمل مع العملاء الحقيقيين.</div>
+  </div>
+  <div id="phases"></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="test-s" id="testimonials">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div><div class="sey">آراء الطلاب</div><div class="st">نتائج حقيقية من أناس حقيقيين</div></div>
+  </div>
+  <div class="tg" id="testGrid"></div>
+  <div class="rating-box" id="ratingBox">
+    <div class="rb-title">⭐ شاركنا رأيك في الكورس</div>
+    <div class="stars-in" id="starsIn">
+      <button class="star-b" data-v="1">★</button>
+      <button class="star-b" data-v="2">★</button>
+      <button class="star-b" data-v="3">★</button>
+      <button class="star-b" data-v="4">★</button>
+      <button class="star-b" data-v="5">★</button>
+    </div>
+    <input class="ri" id="rName" placeholder="اسمك ودورك (مثال: أحمد — مونتير يوتيوب)">
+    <textarea class="ri" id="rText" placeholder="اكتب تجربتك مع الكورس..."></textarea>
+    <button class="rb-btn" onclick="submitRating()">نشر التقييم</button>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-s" id="faq">
+  <div style="text-align:center"><div class="sey c">أسئلة شائعة</div><div class="st" style="text-align:center">إجابات مدروسة لكل تساؤل</div></div>
+  <div class="faq-w" id="faqList"></div>
+</section>
+<!-- GIFTS -->
+<section class="gift-s" id="gifts">
+  <div class="sey">هدايا الكورس</div>
+  <div class="st">هدايا exclusive للمشتركين 🎁</div>
+  <div class="ss">سجّل في الكورس واحصل على كل الهدايا المجانية!</div>
+  
+  <div class="gift-grid" id="giftGrid"></div>
+  
+  <div class="gift-locked" id="giftLocked">
+    <div class="gl-icon">🎁</div>
+    <div class="gl-title">هدايا حصرية للمشتركين</div>
+    <div class="gl-desc">سجّل في الكورس واحصل على Adobe CC مجاني، LUTs، SFX، هدايا وغيرها!</div>
+    <button class="btn-hero" onclick="goReg(event)">🎬 سجّل الآن</button>
+  </div>
+</section>
+<!-- PAYMENT -->
+<section class="pay-s" id="payment">
+  <div class="sey">الدفع</div>
+  <div class="st">ادفع وانضم للكورس</div>
+  <div class="ss">بعد التحويل ارفع الإيصال على صفحة التسجيل أو ابعته على الواتساب مباشرة</div>
+  <div class="pay-g">
+    <div class="payc"><div class="payc-glow"></div><div class="payc-logo">📱</div><div class="payc-name">فودافون كاش</div><div class="payc-nl">حوّل على</div><div class="payc-num">01095822948</div><br><button class="copy-btn" id="vb" onclick="cpN('01095822948','vb')">📋 نسخ الرقم</button><div class="pay-steps"><div class="ps"><div class="ps-n">1</div><div class="ps-t">افتح فودافون كاش ← <strong>تحويل أموال</strong></div></div><div class="ps"><div class="ps-n">2</div><div class="ps-t">الرقم <strong>01095822948</strong> والمبلغ <strong id="pa1">2500 ج</strong></div></div><div class="ps"><div class="ps-n">3</div><div class="ps-t">ارفع <strong>صورة الإيصال</strong> على صفحة التسجيل</div></div></div></div>
+    <div class="payc"><div class="payc-glow"></div><div class="payc-logo">⚡</div><div class="payc-name">إنستا باي</div><div class="payc-nl">حوّل على</div><div class="payc-num">01095822948</div><br><button class="copy-btn" id="ib" onclick="cpN('01095822948','ib')">📋 نسخ الرقم</button><div class="pay-steps"><div class="ps"><div class="ps-n">1</div><div class="ps-t">افتح البنك ← <strong>إنستا باي</strong></div></div><div class="ps"><div class="ps-n">2</div><div class="ps-t">الرقم <strong>01095822948</strong> والمبلغ <strong id="pa2">2500 ج</strong></div></div><div class="ps"><div class="ps-n">3</div><div class="ps-t">ارفع <strong>صورة الإيصال</strong> على صفحة التسجيل</div></div></div></div>
+  </div>
+  <div style="margin-top:18px;background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.18);border-radius:var(--r2);padding:18px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <div style="font-size:26px">💬</div>
+    <div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--tx);margin-bottom:2px">أو تواصل معنا مباشرة على الواتساب</div><div style="font-size:12px;color:var(--mt)">ابعت الإيصال على <strong style="color:#4ADE80">01095822948</strong></div></div>
+    <a href="https://wa.me/201095822948?text=السلام%20عليكم%20عايز%20أسجل%20في%20Zero%20To%20Hero%20🎬" target="_blank" style="background:linear-gradient(135deg,#16A34A,#15803D);color:#fff;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;padding:11px 22px;border-radius:30px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(22,163,74,.3);cursor:none">ابعت الإيصال ▸</a>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">ZIZO-VFX</div>
+  <div class="fs">Zero To Hero · كورس المونتاج الاحترافي مع محمد رضا<br>يبدأ 6 يونيو 2026 على Zoom</div>
+  <div class="flinks">
+    <a href="#about">المدرب</a><a href="#features">المميزات</a><a href="#curriculum">المنهج</a>
+    <a href="#testimonials">آراء الطلاب</a><a href="#faq">الأسئلة</a><a href="#payment">الدفع</a>
+    <a href="register (3).html">سجّل الآن</a><a href="login (1).html">تسجيل الدخول</a>
+    <a href="login (1).html">لوحة التحكم</a><a href="https://wa.me/201095822948" target="_blank">واتساب</a>
+  </div>
+  <div class="fcopy">© 2026 Zizo-VFX · Zero To Hero · جميع الحقوق محفوظة</div>
+</footer>
+
+<!-- AI ASSISTANT -->
+<div class="ai-fab">
+  <div class="ai-pan" id="aiPan">
+    <div class="ai-hdr">
+      <div class="ai-av">🤖</div>
+      <div style="flex:1"><div class="ai-nm">Zizo Assistant</div><div class="ai-on">متاح الآن</div></div>
+      <button class="ai-x" onclick="tAI()">✕</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs"></div>
+    <div class="ai-quick" id="aiQ">
+      <button class="ai-qb" onclick="ask('السعر إيه دلوقتي؟')">السعر</button>
+      <button class="ai-qb" onclick="ask('إيه مميزات الكورس؟')">المميزات</button>
+      <button class="ai-qb" onclick="ask('إزاي أدفع؟')">الدفع</button>
+      <button class="ai-qb" onclick="ask('إمتى يبدأ الكورس؟')">الموعد</button>
+      <button class="ai-qb" onclick="ask('محتاج خبرة سابقة؟')">المستوى</button>
+      <button class="ai-qb" onclick="ask('ايه الهدايا؟')">الهدايا</button>
+    </div>
+    <div class="ai-ir">
+      <input class="ai-inp" id="aiInp" placeholder="اسأل أي سؤال..." onkeydown="if(event.key==='Enter')sAI()">
+      <button class="ai-snd" onclick="sAI()">➤</button>
+    </div>
+  </div>
+  <div style="position:relative">
+    <button class="ai-btn" onclick="tAI()">🤖</button>
+    <div class="ai-ntf" id="aiNtf">1</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  
+  // ── Professional Video Player ──
+// استبدل showPlayer القديمة بـ:
+
+async function showPlayer(id, title) {
+  var modal = document.getElementById('vidModal');
+  var player = document.getElementById('vidPlayer');
+  var titleEl = document.getElementById('vidModalTitle');
+  
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  if(titleEl) titleEl.textContent = title || 'الحصة ' + id;
+  
+  // Try local video first
+  try {
+    var localVideo = await videoDB_Client.get(id);
+    if (localVideo && localVideo.blob) {
+      var blobUrl = URL.createObjectURL(localVideo.blob);
+      var videoName = title || 'الحصة ' + id;
+      
+      player.innerHTML = `
+        <video id="mainVideo" src="${blobUrl}" playsinline webkit-playsinline
+          controlsList="nodownload"
+          oncontextmenu="return false"
+          style="width:100%;height:100%;background:#000;object-fit:contain;display:block;outline:none">
+        </video>
+        <div style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);padding:8px 16px;border-radius:8px;font-size:12px;color:#fff">
+        </div>
+      `;
+      return;
+    }
+  } catch(e) {}
+  
+  // Try YouTube link
+  var sessVids = DB.get('sessions', {});
+  var url = sessVids[id];
+  if (url) {
+    var embedUrl = getEmbedUrl(url);
+    player.innerHTML = '<iframe src="' + embedUrl + '" style="width:100%;height:100%;border:none;display:block" allowfullscreen allow="autoplay;encrypted-media"></iframe>';
+    return;
+  }
+  
+  player.innerHTML = '<div style="color:#888;text-align:center;padding:40px;font-size:14px">🎬 جاري التحضير...</div>';
+}
+// ── Video Controls Functions ──
+var isPlaying = true;
+
+function togglePlay() {
+  var vid = document.getElementById('mainVideo');
+  if(vid.paused) { vid.play(); isPlaying = true; }
+  else { vid.pause(); isPlaying = false; }
+}
+
+function skipBack() {
+  var vid = document.getElementById('mainVideo');
+  vid.currentTime = Math.max(0, vid.currentTime - 10);
+}
+
+function skipForward() {
+  var vid = document.getElementById('mainVideo');
+  vid.currentTime = Math.min(vid.duration, vid.currentTime + 10);
+}
+
+function seekVideo(e) {
+  var vid = document.getElementById('mainVideo');
+  var progress = e.currentTarget;
+  var rect = progress.getBoundingClientRect();
+  var percent = (e.clientX - rect.left) / rect.width;
+  vid.currentTime = percent * vid.duration;
+}
+
+function toggleFullscreen() {
+  var modal = document.getElementById('vidModal');
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen?.() || modal.webkitRequestFullscreen?.();
+  } else {
+    document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+  }
+}
+
+function toggleQualityMenu() {
+  var menu = document.getElementById('qualityMenu');
+  menu.classList.toggle('show');
+}
+
+function setVideoQuality(quality, btn) {
+  var vid = document.getElementById('mainVideo');
+  var label = btn.textContent;
+  document.getElementById('currentQuality').textContent = label.split(' ')[0];
+  
+  // Set quality based on value
+  switch(quality) {
+    case '1080': vid.style.objectFit = 'fill'; break;
+    case '720': vid.style.objectFit = 'contain'; break;
+    case '480': vid.style.objectFit = 'contain'; break;
+    case '360': vid.style.objectFit = 'contain'; break;
+  }
+  
+  // Update active state
+  document.querySelectorAll('.vid-quality-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  toggleQualityMenu();
+  
+  toast('⚙️ تم تغيير الجودة', 's');
+}
+
+function formatTime(seconds) {
+  var mins = Math.floor(seconds / 60);
+  var secs = Math.floor(seconds % 60);
+  return mins + ':' + (secs < 10 ? '0' : '') + secs;
+}
+// ===== Video Controls =====
+function togglePlayVid() {
+  var vid = document.getElementById('mainVideo');
+  if(!vid) return;
+  if(vid.paused) vid.play();
+  else vid.pause();
+}
+function skipBack() {
+  var vid = document.getElementById('mainVideo');
+  if(!vid) return;
+  vid.currentTime = Math.max(0, vid.currentTime - 10);
+}
+function skipFwd() {
+  var vid = document.getElementById('mainVideo');
+  if(!vid) return;
+  vid.currentTime = Math.min(vid.duration, vid.currentTime + 10);
+}
+function seekVid(e) {
+  var vid = document.getElementById('mainVideo');
+  if(!vid) return;
+  var rect = e.currentTarget.getBoundingClientRect();
+  vid.currentTime = ((e.clientX - rect.left) / rect.width) * vid.duration;
+}
+function toggleFull() {
+  var modal = document.getElementById('vidModal');
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen?.() || modal.webkitRequestFullscreen?.();
+  } else {
+    document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+  }
+}
+function fmtTime(seconds) {
+  try {
+    var m = Math.floor(seconds / 60);
+    var s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  } catch { return '0:00'; }
+}
+// Improved closePlayer
+// استبدل closePlayer القديمة بـ:
+
+function closePlayer(e) {
+  if(e && e.target && e.target.id !== 'vidModal' && e.target.id !== 'vidModalClose') return;
+  var p = document.getElementById('vidPlayer');
+  if(p) {
+    p.querySelectorAll('video').forEach(function(v) { v.pause(); v.src = ''; });
+    p.querySelectorAll('iframe').forEach(function(f) { f.src = ''; });
+    p.innerHTML = '';
+  }
+  var m = document.getElementById('vidModal');
+  if(m) m.style.display = 'none';
+  document.body.style.overflow = '';
+  try { if(document.fullscreenElement) document.exitFullscreen(); } catch(e) {}
+}
+// أضف هذه السطور في الفيديو:
+/*
+  controlsList="nodownload"  → منع زر التحميل
+  oncontextmenu="return false;"  → منع Right Click
+  ondragstart="return false;"  → منع السحب
+*/
+  
+  /* ── IndexedDB للتعامل مع الفيديوهات الكبيرة ── */
+const videoDB = {
+  dbName: 'ZizoVFX_Videos',
+  storeName: 'videos',
+  
+  async open() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, 1);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+      request.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(this.storeName)) {
+          db.createObjectStore(this.storeName, { keyPath: 'id' });
+        }
+      };
+    });
+  },
+  
+  async get(id) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(this.storeName, 'readonly');
+      const store = tx.objectStore(this.storeName);
+      const request = store.get(id);
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => resolve(request.result);
+    });
+  }
+};
+// ── DB (متزامن مع admin.html — prefix: zizo_) ───────────
+const DB={
+  _p:'zizo_',
+  get(k,d=null){try{const v=localStorage.getItem(this._p+k);return v!==null?JSON.parse(v):d}catch{return d}},
+  set(k,v){try{localStorage.setItem(this._p+k,JSON.stringify(v))}catch{}}
+};
+
+// ── CURSOR ──────────────────────────────────────────────
+const c1=document.getElementById('c1'),c2=document.getElementById('c2');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c1.style.left=mx+'px';c1.style.top=my+'px'});
+(function r(){cx+=(mx-cx)*.1;cy+=(my-cy)*.1;c2.style.left=cx+'px';c2.style.top=cy+'px';requestAnimationFrame(r)})();
+document.addEventListener('mouseover', (e) => {
+  const target = e.target.closest(
+    'button,a,input,select,textarea,.fc,.apt,.payc,.tcard,.fq,.sr,.star-b'
+  );
+
+  if (target) {
+    c1.style.width = '18px';
+    c1.style.height = '18px';
+  } else {
+    c1.style.width = '10px';
+    c1.style.height = '10px';
+  }
+});
+document.addEventListener('mousedown', () => {
+  c1.style.transform = 'translate(-50%,-50%) scale(0.8)';
+});
+
+document.addEventListener('mouseup', () => {
+  c1.style.transform = 'translate(-50%,-50%) scale(1)';
+});
+// ── NAV ──────────────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+
+// ── 3D SCENE ─────────────────────────────────────────────
+(function(){
+  const cv=document.getElementById('hcvs');
+if(!cv||typeof THREE==='undefined')return;
+  const ren=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+  ren.setPixelRatio(Math.min(devicePixelRatio,1.5));
+  ren.setSize(cv.offsetWidth||innerWidth,cv.offsetHeight||innerHeight);
+  const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(50,(cv.offsetWidth||innerWidth)/(cv.offsetHeight||innerHeight),.1,100);
+  cam.position.z=7;
+  // Particles
+  const N=1300,pos=new Float32Array(N*3),col=new Float32Array(N*3);
+  for(let i=0;i<N;i++){
+    const r=3+Math.random()*11,t=Math.random()*Math.PI*2,p=Math.acos(2*Math.random()-1);
+    pos[i*3]=r*Math.sin(p)*Math.cos(t);pos[i*3+1]=r*Math.sin(p)*Math.sin(t)*.55;pos[i*3+2]=(Math.random()-.5)*7;
+    const g=Math.random()>.42;col[i*3]=g?.91:.29;col[i*3+1]=g?.67:.48;col[i*3+2]=g?.21:.96;
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  const pm=new THREE.PointsMaterial({size:.055,vertexColors:true,transparent:true,opacity:.5});
+  sc.add(new THREE.Points(geo,pm));
+  // Rings — subtle & elegant
+  [[1.7,.004,0xC8911A,.5,.45,.1,.0006],[2.6,.003,0x4B7BF5,.35,1.15,.65,-.0004],[3.7,.003,0xC8911A,.2,.28,1.05,.0003],[5.0,.002,0x9B6DFF,.12,.85,.38,-.0002]].forEach(d=>{
+    const m=new THREE.Mesh(new THREE.TorusGeometry(d[0],d[1],12,160),new THREE.MeshBasicMaterial({color:d[2],transparent:true,opacity:d[3]}));
+    m.rotation.x=d[4];m.rotation.y=d[5];m.userData.s=d[6];sc.add(m);
+  });
+  // Shapes
+  for(let i=0;i<8;i++){
+    const g=Math.random()>.5?new THREE.OctahedronGeometry(.1):new THREE.TetrahedronGeometry(.09);
+    const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:Math.random()>.5?0xC8911A:0x4B7BF5,transparent:true,opacity:.15+Math.random()*.12,wireframe:true}));
+    m.position.set((Math.random()-.5)*9,(Math.random()-.5)*5,(Math.random()-.5)*4);
+    m.userData={rx:(Math.random()-.5)*.004,ry:(Math.random()-.5)*.005,fy:Math.random()*Math.PI*2,fs:.002+Math.random()*.003,by:m.position.y};
+    sc.add(m);
+  }
+  // Grid
+  const gr=new THREE.GridHelper(22,32,0xC8911A,0xC8911A);gr.material.opacity=.025;gr.material.transparent=true;gr.position.y=-4.5;sc.add(gr);
+  let tmx=0,tmy=0,cmx=0,cmy=0,tt=0;
+  document.addEventListener('mousemove',e=>{tmx=(e.clientX/innerWidth-.5)*1.3;tmy=-(e.clientY/innerHeight-.5)*.8;});
+  window.addEventListener('resize',()=>{ren.setSize(cv.offsetWidth||innerWidth,cv.offsetHeight||innerHeight);cam.aspect=(cv.offsetWidth||innerWidth)/(cv.offsetHeight||innerHeight);cam.updateProjectionMatrix();});
+  (function tick(){
+    requestAnimationFrame(tick);tt+=.007;
+    pm.opacity=.42+Math.sin(tt*.4)*.08;
+    sc.children.forEach(c=>{if(c.userData?.s){c.rotation.y+=c.userData.s;c.rotation.x+=c.userData.s*.3;}if(c.userData?.rx){c.rotation.x+=c.userData.rx;c.rotation.y+=c.userData.ry;c.userData.fy+=c.userData.fs;c.position.y=c.userData.by+Math.sin(c.userData.fy)*.13;}});
+    gr.rotation.y=tt*.015;
+    cmx+=(tmx*.45-cmx)*.025;cmy+=(tmy*.3-cmy)*.025;
+    cam.position.x=cmx;cam.position.y=cmy;cam.lookAt(0,0,0);
+    ren.render(sc,cam);
+  })();
+})();
+
+// ── BURST ────────────────────────────────────────────────
+const BC=['Pr','Ae','★','◆','▲','Ps','✦','Ai'],BCC=['#E8AB35','#9B6DFF','#4B7BF5','#10B981','#F59E0B'];
+function burst(x,y,n=10){
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');
+    const a=(360/n*i)*Math.PI/180,d=55+Math.random()*85;
+    el.style.cssText=`position:fixed;left:${x}px;top:${y}px;pointer-events:none;z-index:9990;font-family:'Bebas Neue',sans-serif;font-size:0;font-weight:900;color:${BCC[i%BCC.length]};text-shadow:0 0 8px currentColor;--tx:${Math.cos(a)*d}px;--ty:${Math.sin(a)*d}px;--r:${Math.random()*360}deg;animation:bk .9s cubic-bezier(.25,.46,.45,.94) ${i*.04}s forwards`;
+    el.textContent=BC[i%BC.length];document.body.appendChild(el);setTimeout(()=>el.remove(),1100);
+  }
+}
+const ks=document.createElement('style');ks.textContent='@keyframes bk{0%{font-size:16px;opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}100%{font-size:20px;opacity:0;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.35) rotate(var(--r))}}';document.head.appendChild(ks);
+function goReg(e){burst(e.clientX||innerWidth/2,e.clientY||200,12);setTimeout(()=>location.href='register (3).html',180);}
+
+// ── APPLY SETTINGS FROM ADMIN ────────────────────────────
+function applySettings(){
+  var s = DB.get('site_settings', {});
+
+  /* ─ السعر + الخصم المحسوب ─ */
+  var basePrice = parseInt(s.price) || 2500;
+  var origPrice = parseInt(s.originalPrice) || 3000;
+  document.getElementById('pbFinal').textContent = basePrice.toLocaleString('ar-EG');
+  document.getElementById('pbOld').textContent   = origPrice.toLocaleString('ar-EG');
+  document.getElementById('npNew').textContent   = basePrice.toLocaleString('ar-EG') + ' ج';
+  var pa1 = document.getElementById('pa1'), pa2 = document.getElementById('pa2');
+  if(pa1) pa1.textContent = basePrice.toLocaleString('ar-EG') + ' ج';
+  if(pa2) pa2.textContent = basePrice.toLocaleString('ar-EG') + ' ج';
+  /* ─ نسبة الخصم الصحيحة ─ */
+  if(origPrice > basePrice && !DB.get('active_discount')){
+    var discPct = Math.round((origPrice - basePrice) / origPrice * 100);
+    document.getElementById('pbDisc').textContent = 'خصم ' + discPct + '% 🔥';
+    document.getElementById('pbDisc').style.display = 'block';
+    document.getElementById('npDisc').textContent = '-' + discPct + '%';
+    document.getElementById('npDisc').style.display = 'inline-block';
+  }
+
+  /* ─ تاريخ البداية ─ */
+  var startEl = document.getElementById('startDate');
+  if(startEl && s.start) startEl.textContent = s.start;
+
+  /* ─ الكاونتر ─ */
+  if(s.showCounter === false){
+    var cdw = document.querySelector('.cdw');
+    if(cdw) cdw.style.display = 'none';
+  }
+
+  /* ─ عداد الأماكن ─ */
+  if(s.showSeats === false){
+    var seatsEl = document.querySelector('.seats');
+    if(seatsEl) seatsEl.style.display = 'none';
+  }
+
+  /* ─ رقم الواتساب ─ */
+  if(s.phone){
+    var waLink = document.querySelector('.wa');
+    if(waLink) waLink.href = 'https://wa.me/2' + s.phone;
+    document.querySelectorAll('.payc-num').forEach(function(el){ el.textContent = s.phone; });
+  }
+
+  /* ─ الأماكن ─ */
+  if(s.seats){
+    var totalSeats = parseInt(s.seats) || 20;
+    var takenN = DB.get('reg_count', 0);
+    var leftN  = Math.max(totalSeats - takenN, 0);
+    var sl = document.getElementById('sl');
+    var sn = document.getElementById('sn');
+    var sf = document.getElementById('sf');
+    var seatsBar = document.querySelector('.seats-txt');
+    if(sl) sl.textContent = leftN;
+    if(sn) sn.textContent = Math.min(takenN, totalSeats);
+    if(sf) setTimeout(function(){ sf.style.width = (Math.min(takenN,totalSeats)/totalSeats*100)+'%'; }, 400);
+    if(seatsBar) seatsBar.innerHTML = 'حُجز <strong id="sn">' + Math.min(takenN,totalSeats) + '</strong> من ' + totalSeats + ' مكان';
+  }
+
+  /* ─ التسجيلات مغلقة ─ */
+  if(s.allowRegs === false){
+    document.querySelectorAll('.btn-hero, .btn-cta').forEach(function(b){
+      b.textContent = '⛔ التسجيل مغلق مؤقتاً';
+      b.style.opacity = '.5';
+      b.onclick = function(){ toast('التسجيل مغلق حالياً — تواصل معنا على الواتساب', 'e'); };
+    });
+  }
+}
+
+// ── DISCOUNT ─────────────────────────────────────────────
+var _basePrice = parseInt((DB.get('site_settings',{})).price) || 2500;
+const disc = DB.get('active_discount');
+if(disc){ applyDiscUI(disc); }
+function applyDiscUI(d){
+  document.getElementById('pbFinal').textContent = d.final.toLocaleString('ar-EG');
+  document.getElementById('pbSave').textContent  = '✓ وفّرت ' + d.save.toLocaleString('ar-EG') + ' جنيه';
+  document.getElementById('pbSave').style.display = 'block';
+  /* تحديث نسبة الخصم الصحيحة */
+  document.getElementById('pbDisc').textContent = 'خصم ' + d.pct + '% 🔥';
+  document.getElementById('pbDisc').style.display = 'block';
+  document.getElementById('npNew').textContent = d.final.toLocaleString('ar-EG') + ' ج';
+  document.getElementById('npDisc').textContent = '-' + d.pct + '%';
+  document.getElementById('npDisc').style.display = 'inline-block';
+  var pa1 = document.getElementById('pa1'), pa2 = document.getElementById('pa2');
+  if(pa1) pa1.textContent = d.final.toLocaleString('ar-EG') + ' ج';
+  if(pa2) pa2.textContent = d.final.toLocaleString('ar-EG') + ' ج';
+}
+
+// ── COUNTDOWN ────────────────────────────────────────────
+const EID=new Date('2026-06-06T00:00:00');
+function upCD(){
+  const diff=EID-Date.now();
+  if(diff<=0){document.querySelector('.cdw').innerHTML='<div style="color:#FCA5A5;font-weight:700;font-size:13px;text-align:center">⚠️ انتهى الخصم — السعر 3000  جنيه</div>';return}
+  const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
+  ['cdd','cdh','cdm','cds'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=String([d,h,m,s][i]).padStart(2,'0');});
+}upCD();setInterval(upCD,1000);
+
+// ── SEATS ─────────────────────────────────────────────────
+function upSeats(){
+  var s     = DB.get('site_settings', {});
+  var total = parseInt(s.seats) || 20;
+  var n     = DB.get('reg_count', 0);
+  document.getElementById('regN').textContent = n;
+  document.getElementById('sn').textContent   = Math.min(n, total);
+  document.getElementById('sl').textContent   = Math.max(total - n, 0);
+  setTimeout(function(){ var f=document.getElementById('sf'); if(f) f.style.width=(Math.min(n,total)/total*100)+'%'; }, 400);
+}upSeats();
+/* ── GIFTS ── */
+
+
+
+function downloadGift(id) {
+  var gifts = DB.get('gifts_list', []);
+  var g = gifts.find(x => x.id == id);
+  if (!g || !g.link) {
+    toast('⚠️ الرابط غير متوفر', 'w');
+    return;
+  }
+  
+  window.open(g.link, '_blank');
+  toast('📥 جاري فتح ' + g.name, 's');
+}
+
+
+// ── ACCESS CONTROL + VIDEO PLAYER ────────────────────────
+/* ── GIFTS ── */
+
+
+function getEmbedUrl(url){
+  if(!url)return '';
+  if(url.includes('/embed/'))return url;
+  var yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#\s]+)/);
+  if(yt)return 'https://www.youtube.com/embed/'+yt[1]+'?rel=0&autoplay=1';
+  return url;
+}
+function checkAccess(){
+  try{
+    var authStr=sessionStorage.getItem('zizo_auth');
+    if(!authStr)return null;
+    var auth=JSON.parse(authStr);
+    if(!auth||!auth.email)return null;
+    var regs=DB.get('registrations',[]);
+    var reg=regs.find(function(r){return r.email===auth.email;});
+    if(!reg)return{status:'noReg',auth:auth};
+    return{status:reg.status||'pending',auth:auth,name:reg.first||reg.name};
+  }catch(e){return null;}
+}
+/* ===== Gift DB Client ===== */
+const giftDB_Client = {
+  dbName: 'ZizoVFXGiftsDB',
+  storeName: 'gift_files',
+  async open() {
+    return new Promise((resolve) => {
+      const req = indexedDB.open(this.dbName, 1);
+      req.onerror = () => resolve(null);
+      req.onsuccess = () => resolve(req.result);
+    });
+  },
+  async get(id) {
+    const db = await this.open();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      const tx = db.transaction(this.storeName, 'readonly');
+      const store = tx.objectStore(this.storeName);
+      const req = store.get(id);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    });
+  }
+};
+/* ── IndexedDB CLIENT (Gifts) ──────────────────────────────── */
+
+/* ===== Video DB Client ===== */
+const videoDB_Client = {
+  dbName: 'ZizoVFX_Videos',
+  storeName: 'videos',
+  async open() {
+    return new Promise((resolve) => {
+      const req = indexedDB.open(this.dbName, 1);
+      req.onerror = () => resolve(null);
+      req.onsuccess = () => resolve(req.result);
+    });
+  },
+  async get(id) {
+    const db = await this.open();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      const tx = db.transaction(this.storeName, 'readonly');
+      const store = tx.objectStore(this.storeName);
+      const req = store.get(id);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    });
+  }
+};
+/* ── IndexedDB CLIENT (Videos) ───────────────────────── */
+
+
+/* ── GIFTS RENDER (Client Side) ───────────────────────── */
+async function renderGifts() {
+  var access = checkAccess();
+  var canAccess = (access && access.status === 'approved') || sessionStorage.getItem('zizo_admin') === 'true';
+  
+  var grid = document.getElementById('giftGrid');
+  var locked = document.getElementById('giftLocked');
+  var giftSec = document.getElementById('gifts');
+  
+  // لو مش مشترك أو أدمن، أخفي_section بالكامل
+  if (!canAccess && giftSec) {
+    giftSec.style.display = 'none';
+    return;
+  }
+  
+  // لو المشترك، اعرض الهدايا
+  if(grid) {
+    grid.style.display = 'grid';
+    var gifts = DB.get('gifts_list', []);
+    
+    if (!gifts.length) {
+      grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:40px;color:var(--mt2);font-size:14px">🎁 لم تُضف هدايا بعد</div>';
+      return;
+    }
+    
+    grid.innerHTML = gifts.map(async g => {
+      var fileCount = 0;
+      try {
+        var data = await giftDB_Client.get(g.id);
+        fileCount = data ? data.files.length : 0;
+      } catch(e) { fileCount = 0; }
+      var icon = fileCount > 1 ? '📂' : (fileCount === 1 ? '📄' : '🔗');
+      return '<div class="gift-card"><div class="gift-card-ic">'+icon+'</div><div class="gift-card-t">'+g.name+'</div><div class="gift-card-d">'+(g.desc || (fileCount > 0 ? fileCount + ' ملف' : 'رابط خارجي'))+'</div><button class="gift-card-btn" onclick="openGiftModal(\''+g.id+'\', \''+g.name.replace(/'/g,"\\'")+'\')">تحميل</button></div>';
+    }).join('');
+  }
+}
+// إزالة hint من الفيديو أول ما الصفحة تحمل
+setTimeout(() => {
+  document.querySelectorAll('.yts-tip, .vid-tip, [class*="tip"]').forEach(el => {
+    el.style.display = 'none';
+    el.remove();
+  });
+}, 100);
+async function openGiftModal(id, name) {
+  var modal = document.getElementById('giftModal');
+  var body = document.getElementById('giftModalBody');
+  document.getElementById('giftModalTitle').textContent = '🎁 ' + name;
+  
+  body.innerHTML = '<div style="font-size:32px;margin-bottom:16px">⏳ جاري التحميل...</div>';
+  modal.style.display = 'flex';
+  
+  try {
+    var data = await giftDB_Client.get(id);
+    if (!data || !data.files || !data.files.length) {
+      var gifts = DB.get('gifts_list', []);
+      var g = gifts.find(x => x.id == id);
+      if (g && g.link) {
+        window.open(g.link, '_blank');
+        body.innerHTML = '<div style="text-align:center"><div style="font-size:48px;margin-bottom:12px">🔗</div><div style="font-size:14px;margin-bottom:16px">جاري فتح الرابط...</div><a href="'+g.link+'" target="_blank" class="btn-hero" style="padding:12px 30px">فتح الرابط ↗</a></div>';
+        return;
+      }
+      body.innerHTML = '<div style="color:var(--red);font-size:14px">⚠️ الملفات غير موجودة</div>';
+      return;
+    }
+    
+    if (data.files.length === 1) {
+      var f = data.files[0];
+      body.innerHTML = '<div style="font-size:48px;margin-bottom:12px">📄</div><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px">'+f.name+'</div><div style="font-size:12px;color:var(--muted2);margin-bottom:20px">'+(f.size / 1024).toFixed(1)+' KB</div><a href="'+f.data+'" download="'+f.name+'" style="background:linear-gradient(135deg,var(--gold-g),var(--gold-d));color:#000;font-weight:900;padding:12px 28px;border-radius:30px;text-decoration:none;display:inline-block">📥 تحميل</a>';
+    } else {
+      body.innerHTML = '<div style="font-size:48px;margin-bottom:12px">📂</div><div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px">'+data.files.length+' ملفات</div><div style="max-height:200px;overflow-y:auto;margin-top:16px">'+data.files.map((f, i) => '<a href="'+f.data+'" download="'+f.name+'" style="display:block;margin:6px 0;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);text-decoration:none;font-size:12px">📄 '+f.name+'</a>').join('')+'</div>';
+    }
+  } catch(e) {
+    body.innerHTML = '<div style="color:var(--red)">❌ خطأ: ' + e.message + '</div>';
+  }
+}
+
+// استبدل closeGiftModal القديمة بـ:
+
+function closeGiftModal(e) {
+  if(e && e.target && e.target.id !== 'giftModal') return;
+  document.getElementById('giftModal').style.display = 'none';
+}
+
+/* ── Professional Video Player (YouTube Style) ── */
+
+// Video Player Functions
+function togglePlay() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  if(v.paused) { v.play(); } else { v.pause(); }
+}
+
+function skip(s) {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  v.currentTime = Math.max(0, Math.min(v.duration, v.currentTime + s));
+}
+
+function seekVid(e) {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  var rect = e.currentTarget.getBoundingClientRect();
+  var pct = (e.clientX - rect.left) / rect.width;
+  v.currentTime = pct * v.duration;
+}
+
+function toggleMute() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  v.muted = !v.muted;
+}
+
+function toggleFull() {
+  var m = document.getElementById('vidModal');
+  if(!m) return;
+  if(!document.fullscreenElement) {
+    m.requestFullscreen?.() || m.webkitRequestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+function toggleQMenu() {
+  document.getElementById('ytsQMenu').classList.toggle('show');
+}
+
+function setQual(q, label) {
+  document.getElementById('ytsQual').textContent = label;
+  document.querySelectorAll('.yts-qopt').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  toggleQMenu();
+}
+
+function fmt(s) {
+  var m = Math.floor(s / 60);
+  var sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function closePlayer(e) {
+  if(e && e.target && e.target.id !== 'vidModal' && e.target.id !== 'vidModalClose') return;
+  var p = document.getElementById('vidPlayer');
+  if(p) {
+    p.querySelectorAll('video').forEach(function(v) { v.pause(); v.src = ''; });
+    p.querySelectorAll('iframe').forEach(function(f) { f.src = ''; });
+    p.innerHTML = '';
+  }
+  document.getElementById('vidModal').style.display = 'none';
+  document.body.style.overflow = '';
+  try { document.exitFullscreen(); } catch(e) {}
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if(document.getElementById('vidModal').style.display === 'none') return;
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  
+  switch(e.key) {
+    case ' ': case 'k': e.preventDefault(); togglePlay(); break;
+    case 'ArrowLeft': e.preventDefault(); skip(-10); break;
+    case 'ArrowRight': e.preventDefault(); skip(10); break;
+    case 'f': e.preventDefault(); toggleFull(); break;
+    case 'm': e.preventDefault(); toggleMute(); break;
+    case 'Escape': e.preventDefault(); closePlayer({target:{id:'vidModalClose'}}); break;
+  }
+});
+/* ── Video Controls ── */
+function togglePlayVid() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  var centerPlay = document.getElementById('ytCenterPlay');
+  if(v.paused) { 
+    v.play(); 
+    if(centerPlay) centerPlay.style.display = 'none';
+    toast('▶', 's'); 
+  } else { 
+    v.pause(); 
+    toast('⏸', 's'); 
+  }
+}
+
+function skipBack() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  v.currentTime = Math.max(0, v.currentTime - 5);
+  toast('⏪ 5s', 's');
+}
+
+function skipFwd() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  v.currentTime = Math.min(v.duration, v.currentTime + 5);
+  toast('⏩ 5s', 's');
+}
+
+function seekVid(e) {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  var rect = e.currentTarget.getBoundingClientRect();
+  v.currentTime = ((e.clientX - rect.left) / rect.width) * v.duration;
+}
+
+function toggleFull() {
+  var m = document.getElementById('vidModal');
+  var player = document.getElementById('vidPlayer');
+  
+  if (!document.fullscreenElement) {
+    // الدخول لوضع ملء الشاشة
+    if (m.requestFullscreen) {
+      m.requestFullscreen();
+    } else if (m.webkitRequestFullscreen) {
+      m.webkitRequestFullscreen();
+    }
+    
+    // إزالة القيود
+    if (player) {
+      player.style.maxWidth = '100%';
+      player.style.aspectRatio = 'auto';
+      player.style.width = '100vw';
+      player.style.height = '100vh';
+      player.style.maxWidth = 'none';
+    }
+  } else {
+    // الخروج من ملء الشاشة
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+    
+    // إعادة القيود
+    if (player) {
+      player.style.maxWidth = '1200px';
+      player.style.aspectRatio = '16/9';
+      player.style.width = '100%';
+      player.style.height = 'auto';
+    }
+  }
+  
+  toast(document.fullscreenElement ? '⛶ ملء الشاشة' : '⛶退出', 's');
+}
+function toggleVol() {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  v.muted = !v.muted;
+  toast(v.muted ? '🔇' : '🔊', 's');
+}
+
+function toggleQualityMenu() {
+  document.getElementById('qualityMenu').classList.toggle('show');
+}
+
+function setQuality(q, btn) {
+  var v = document.getElementById('mainVideo');
+  if(!v) return;
+  
+  var name = btn.textContent.replace(/[✅⭐⬆️⬇️💚]/g,'').trim();
+  document.getElementById('currQuality').textContent = name.split(' ')[0];
+  document.querySelectorAll('.yt-quality-option').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  // ملء الشاشة دائماً (زي YouTube)
+  v.style.objectFit = 'fill';
+  
+  toggleQualityMenu();
+  toast('⚙️ ' + name, 's');
+}
+
+function fmtTime(s) {
+  var m = Math.floor(s / 60);
+  var sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function handleVidKey(e) {
+  if(document.getElementById('vidModal').style.display === 'none') return;
+  var v = document.getElementById('mainVideo');
+  if(!v || v.tagName === 'IFRAME') return;
+  
+  switch(e.key) {
+    case ' ': case 'k': e.preventDefault(); togglePlayVid(); break;
+    case 'ArrowLeft': e.preventDefault(); skipBack(); break;
+    case 'ArrowRight': e.preventDefault(); skipFwd(); break;
+    case 'f': case 'F': e.preventDefault(); toggleFull(); break;
+    case 'm': case 'M': e.preventDefault(); toggleVol(); break;
+    case 'Escape': e.preventDefault(); closePlayer({target:{id:'vidModalClose'}}); break;
+  }
+}
+
+function closePlayer(e) {
+  if(e && e.target.id !== 'vidModal' && e.target.id !== 'vidModalClose') return;
+  var p = document.getElementById('vidPlayer');
+  p.querySelectorAll('video,iframe').forEach(v => { v.pause?.(); v.src = ''; });
+  p.innerHTML = '';
+  if (document.fullscreenElement) { try { document.exitFullscreen(); } catch(e){} }
+  document.getElementById('vidModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function openSession(id,title){
+  if(id===1) { showPlayer(id,title); return; }
+  var access=checkAccess();
+  if(!access) { toast('🔒 سجّل في الكورس','e'); setTimeout(()=>goReg(null),1400); return; }
+  if(access.status==='approved') { showPlayer(id,title); }
+  else if(access.status==='pending') { toast('⏳ جاري المراجعة','w'); }
+  else { toast('🔒 سجّل في الكورس','e'); setTimeout(()=>goReg(null),1400); }
+}
+/* ── جلب حالة الفيديو (محلي + رابط) ── */
+/* ── جلب حالة الفيديو (محلي + رابط) ── */
+async function getVideoStatus(id) {
+  var sessVids = DB.get('sessions', {});
+  var url = sessVids[id];
+  
+  //لو فيه فيديو محلي (استخدم videoDB_Client الجديد)
+  try {
+    var localVideo = await videoDB_Client.get(id);
+    if (localVideo && localVideo.blob) {
+      return { hasVideo: true, type: 'local', name: localVideo.name, size: localVideo.size };
+    }
+  } catch(e) {}
+  
+  // لو فيه رابط YouTube
+  if (url) {
+    return { hasVideo: true, type: 'youtube', url: url };
+  }
+  
+  return { hasVideo: false };
+}
+
+// ── CURRICULUM ───────────────────────────────────────────
+/* ── CURRICULUM ─────────────────────────────────────────── */
+const sessions = [
+  {id:1,ph:1,t:'مرحباً بـ Premiere Pro — البداية الصحيحة',tp:['الواجهة','New Project','Sequence','Shortcuts'],free:true},
+  {id:2,ph:1,t:'الاستيراد وتنظيم الملفات والقطع',tp:['Import','Bins','Razor','J-Cut & L-Cut'],free:false},
+  {id:3,ph:1,t:'الصوت — الجانب الذي يصنع الفارق',tp:['Audio Levels','Denoise','Keyframes','LUFS'],free:false},
+  {id:4,ph:1,t:'Transitions وEffects والتصدير',tp:['Speed Ramp','Zoom Trans','H.264','Encoder'],free:false},
+  {id:5,ph:2,t:'Color Correction — أساس الصورة',tp:['Lumetri','Scopes','White Balance','Adj Layers'],free:false},
+  {id:6,ph:2,t:'Color Grading السينمائي',tp:['Cinematic Look','LOG','Color Match','LUT'],free:false},
+  {id:7,ph:2,t:'Workflow احترافي — ضعف الإنتاجية',tp:['Proxies 4K','Multi-Cam','Nested Seq','AI Tools'],free:false},
+  {id:8,ph:2,t:'After Effects — Motion Graphics',tp:['Compositions','Keyframes','Dynamic Link','Logo'],free:false},
+  {id:9,ph:3,t:'VFX أساسي — Green Screen',tp:['Chroma Key','Motion Track','Masking','Roto'],free:false},
+  {id:10,ph:3,t:'بناء Portfolio يجذب العملاء',tp:['Spec Work','Demo Reel','Behance','Bio'],free:false},
+  {id:11,ph:3,t:'استراتيجية اكتساب العملاء',tp:['Upwork','Fiverr','Khamsat','Proposal'],free:false},
+  {id:12,ph:3,t:'التسعير والعقود والدخل الثابت',tp:['نماذج تسعير','التفاوض','عقد بسيط','خطة 30 يوم'],free:false},
+];
+
+const phMeta = [
+  {n:1,tag:'المرحلة الأولى · حصص 1–4',t:'أساسيات Premiere Pro الكاملة',m:'من فتح البرنامج لتسليم أول فيديو'},
+  {n:2,tag:'المرحلة الثانية · حصص 5–8',t:'الاحتراف والتميّز البصري',m:'Color Grading، Workflow وAfter Effects'},
+  {n:3,tag:'المرحلة الثالثة · حصص 9–12',t:'من مبدع إلى Freelancer',m:'Portfolio، عملاء والدخل المستقل'},
+];
+
+/* ── عرض المنهج الدراسي ── */
+async function renderCurriculum() {
+  var access = checkAccess();
+  var isApproved = access && access.status === 'approved';
+  
+  document.getElementById('phases').innerHTML = await Promise.all(phMeta.map(async function(pm) {
+    var sessRows = await Promise.all(sessions.filter(s => s.ph === pm.n).map(async function(s) {
+      var videoInfo = await getVideoStatus(s.id);
+      var hasVideo = videoInfo.hasVideo;
+      
+      var freeLabel = s.free
+        ? '<span class="free-tag" style="cursor:default">مجاناً ▶</span>'
+        : '<span style="font-size:9px;background:rgba(26,63,191,.07);border:1px solid rgba(99,132,245,.2);border-radius:4px;padding:1px 7px;color:#6B8EF7;margin-left:5px;font-weight:700">مشتركين</span>';
+      
+      var actionBtn = '';
+      if (s.free || isApproved) {
+        if (hasVideo) {
+          var icon = videoInfo.type === 'local' ? '📁' : '▶';
+          actionBtn = '<button onclick="openSession(' + s.id + ',\'' + s.t.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')" style="flex-shrink:0;background:linear-gradient(135deg,#E8AB35,#C68D1A);border:none;border-radius:8px;padding:6px 14px;color:#0a0a0f;font-size:11px;font-weight:800;cursor:pointer;font-family:\'Cairo\',sans-serif;display:flex;align-items:center;gap:5px;transition:.15s;white-space:nowrap" onmouseover="this.style.opacity=\'.8\'" onmouseout="this.style.opacity=\'1\'">' + icon + ' شاهد</button>';
+        } else {
+          actionBtn = '<div style="flex-shrink:0;font-size:10px;color:var(--mt2);white-space:nowrap">قريباً</div>';
+        }
+      } else {
+        actionBtn = '<div style="flex-shrink:0;font-size:17px;opacity:.35;cursor:pointer;transition:.2s" onclick="openSession(' + s.id + ',\'' + s.t.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')" title="للمشتركين المؤكدين فقط — اشترك لتشاهد" onmouseover="this.style.opacity=\'.7\'" onmouseout="this.style.opacity=\'.35\'">🔒</div>';
+      }
+      
+      return '<div class="sr" style="display:flex;align-items:center;gap:10px">' +
+        '<div class="sr-n">' + s.id + '</div>' +
+        '<div class="sr-info" style="flex:1;min-width:0">' +
+          '<div class="sr-title">' + freeLabel + s.t + '</div>' +
+          '<div class="sr-topics">' + s.tp.map(t => '<span class="sr-tp">' + t + '</span>').join('') + '</div>' +
+        '</div>' +
+        '<div class="sr-dur">90 د</div>' +
+        actionBtn +
+      '</div>';
+    }));
+    
+    return '<div class="phase open" id="ph' + pm.n + '">' +
+      '<div class="ph" onclick="tPh(\'ph' + pm.n + '\')">' +
+        '<div class="ph-n">0' + pm.n + '</div>' +
+        '<div class="ph-info"><div class="ph-tag">' + pm.tag + '</div><div class="ph-title">' + pm.t + '</div><div class="ph-meta">' + pm.m + '</div></div>' +
+        '<div class="ph-arr">▶</div>' +
+      '</div>' +
+      '<div class="ph-body">' + sessRows.join('') + '</div>' +
+    '</div>';
+  }));
+}
+
+function tPh(id) {
+  var p = document.getElementById(id);
+  var o = p.classList.contains('open');
+  document.querySelectorAll('.phase').forEach(x => x.classList.remove('open'));
+  if (!o) p.classList.add('open');
+}
+
+// استدعاء عند التحميل
+renderCurriculum();
+renderGifts();
+function tPh(id){var p=document.getElementById(id);var o=p.classList.contains('open');document.querySelectorAll('.phase').forEach(function(x){x.classList.remove('open');});if(!o)p.classList.add('open');}
+
+// ── TESTIMONIALS ─────────────────────────────────────────
+function testCard(t, i){
+  return '<div class="tcard" style="animation:msgIn .5s '+i*.1+'s ease both">' +
+    (t.img
+      ? '<div class="tcard-iw"><img class="tcard-img" src="'+t.img+'" alt="'+t.name+'" loading="lazy"><div class="tcard-ov"></div><div class="tcard-stars-ov">'+'★'.repeat(t.stars||5)+'</div></div>'
+      : '<div class="tcard-ph">💬</div>') +
+    '<div class="tcard-body">' +
+      '<div class="tcard-stars">'+'★'.repeat(t.stars||5)+'</div>' +
+      (t.quote ? '<div class="tcard-q">"'+t.quote+'"</div>' : '') +
+      '<div class="tcard-au">' +
+        '<div class="tcard-av">'+(t.img ? '<img src="'+t.img+'" alt="">' : '👤')+'</div>' +
+        '<div><div class="tcard-name">'+t.name+'</div><div class="tcard-role">'+(t.role||'')+'</div></div>' +
+      '</div>' +
+    '</div></div>';
+}
+function loadTests(){
+  /* الادمن ينشر من admin.html → zizo_testimonials
+     المستخدمون يرسلون تقييم → zizo_user_reviews (معلّقة لمراجعة الادمن) */
+  var adminTests = DB.get('testimonials', []);
+  var g = document.getElementById('testGrid');
+  if(!adminTests.length){
+    g.innerHTML = '<div class="t-empty">💬 آراء الطلاب ستظهر هنا بعد إضافتها من لوحة التحكم</div>';
+  } else {
+    g.innerHTML = adminTests.map(function(t, i){ return testCard(t, i); }).join('');
+  }
+}
+loadTests();
+
+// ── RATING ───────────────────────────────────────────────
+let selStars=0;
+document.querySelectorAll('.star-b').forEach((b,i)=>{
+  b.addEventListener('mouseenter',()=>hlStars(i+1));
+  b.addEventListener('mouseleave',()=>hlStars(selStars));
+  b.addEventListener('click',()=>{selStars=i+1;hlStars(selStars);});
+});
+function hlStars(n){document.querySelectorAll('.star-b').forEach((b,i)=>b.classList.toggle('lit',i<n));}
+function submitRating(){
+  if(!selStars){toast('اختار تقييم من 1 إلى 5','e');return}
+  var name=document.getElementById('rName').value.trim();
+  var text=document.getElementById('rText').value.trim();
+  if(!name){toast('اكتب اسمك','e');return}
+  /* تقييمات المستخدمين تحفظ في مفتاح منفصل وتظهر في الادمن للمراجعة */
+  var reviews=DB.get('user_reviews',[]);
+  reviews.unshift({name:name,quote:text,stars:selStars,role:'طالب في الكورس',img:null,time:new Date().toISOString(),pending:true});
+  DB.set('user_reviews',reviews);
+  document.getElementById('rName').value='';document.getElementById('rText').value='';
+  selStars=0;hlStars(0);
+  toast('✅ شكراً! وصلنا تقييمك وهيظهر بعد مراجعة الادمن','s');
+}
+
+// ── FAQ ───────────────────────────────────────────────────
+const faqs=[
+  {q:'ما مستوى الطالب المثالي لهذا الكورس؟',a:'الكورس مصمم من الصفر المطلق. لا يُشترط أي خبرة سابقة — إذا كنت تعرف كيف تشغّل الكمبيوتر أنت مؤهل للبدء.'},
+  {q:'ماذا يعني أن Adobe CC على حساب الكورس؟',a:'يعني أنك لن تحتاج لشراء اشتراك Adobe. Premiere Pro وAfter Effects ستكون متاحة لك رسمياً طول مدة الكورس بدون أي تكلفة إضافية.'},
+  {q:'ماذا لو فاتتني حصة مباشرة؟',a:'لا مشكلة. كل حصة تُسجَّل بجودة كاملة وترسل لك خلال 24 ساعة، راجعها في أي وقت وبأي سرعة.'},
+  {q:'كيف يختلف هذا الكورس عن دورات يوتيوب المجانية؟',a:'كورسات يوتيوب تعلّمك أزرار البرنامج. هنا ستتعلم كيف تفكر كمونتير محترف، تعمل على مشاريع حقيقية، تبني أسلوبك الخاص وتحوّل المهارة لدخل فعلي.'},
+  {q:'هل أحتاج جهاز قوي؟',a:'ستتعلم كيف تعمل على Premiere حتى على الأجهزة المتواضعة باستخدام Proxies. الجهاز الضعيف ليس عائقاً.'},
+  {q:'كم مدة الكورس وكم حصة أسبوعياً؟',a:'شهر كامل — 12 حصة، 3 حصص أسبوعياً، كل حصة 90 دقيقة. إجمالي 18 ساعة تعليم مكثّف.'},
+  {q:'هل يوجد ضمان استرداد؟',a:'نعم. إذا حضرت أول حصتين ولم تجد القيمة المتوقعة، نعيد لك كامل المبلغ دون أي شروط.'},
+  {q:'كيف يتم الدعم بعد انتهاء الكورس؟',a:'لا توجد مدة محددة. سؤال بعد ستة أشهر سيجد إجابة مثل سؤال في اليوم الأول.'},
+  {q:'هل الكورس مناسب لصانعي المحتوى؟',a:'نعم. جزء كبير من المنهج مبني على احتياجات منصات المحتوى — يوتيوب، إنستقرام، تيك توك.'},
+  {q:'كيف أحصل على كود الخصم؟',a:'كود الخصم خاص ومحدود. تابع صفحات Zizo-VFX أو تواصل معنا على الواتساب.'},
+  {q:'ما الفرق بين Premiere وAfter Effects؟',a:'Premiere = مونتاج وتجميع الفيديو. After Effects = حركة وتأثيرات بصرية. الاثنان يعملان معاً عبر Dynamic Link.'},
+  {q:'هل يمكنني العمل كـ Freelancer بعد الكورس مباشرة؟',a:'نعم. المرحلة الثالثة كاملة للـ Freelancing — Portfolio، عملاء، تسعير وتسليم المشاريع.'},
+  {q:'هل Color Grading مشروح بالتفصيل؟',a:'نعم. حصتان متخصصتان: Color Correction أساسي، وGrading سينمائي + بناء LUT للبيع.'},
+  {q:'ماذا أحتاج قبل البداية؟',a:'جهاز كمبيوتر واتصال إنترنت. البرامج على حساب الكورس — لن تشتري شيئاً إضافياً.'},
+  {q:'هل يمكنني الانضمام من خارج مصر؟',a:'بالتأكيد. الكورس عبر الإنترنت. لطرق دفع بديلة تواصل معنا على الواتساب.'},
+  {q:'هل الحصص تفاعلية؟',a:'نعم. كل حصة فيها وقت للأسئلة، يمكنك مشاركة شاشتك لمراجعة عملك مباشرة.'},
+  {q:'كم يستغرق الوصول لمستوى احترافي؟',a:'من يطبق يومياً يقبل مشاريع من عملاء حقيقيين خلال 4–8 أسابيع بعد الكورس.'},
+  {q:'هل الشهادة معتمدة؟',a:'تصدر من Zizo-VFX. في الفري لانس، Portfolio وجودة شغلك هما بطاقة هويتك الحقيقية — والكورس يبني الاثنين.'},
+  {q:'هل هناك مجموعة للطلاب؟',a:'نعم. عند تفعيل تسجيلك تُضاف لمجموعة خاصة على واتساب أو تيليجرام لكل طلاب الكورس.'},
+  {q:'هل يمكنني الوصول للمحتوى بعد انتهاء الكورس؟',a:'تسجيلات الحصص تبقى محفوظة لديك. التحديثات والحصص الجديدة ستُعلَن بعد انتهاء الكورس الأول.'},
+  {q:'ايه الهدايا اللي هحصل عليها؟',a:'سجل واحصل على Adobe CC مجاني طوال مده الكورس، 20 LUT سينمائي، 50 Lower Third، 1000 SFX، عقود جاهزة، E-Book وقالب Portfolio.'},
+];
+document.getElementById('faqList').innerHTML=faqs.map(f=>`
+  <div class="faq-item">
+    <div class="fq" onclick="this.parentElement.classList.toggle('open')">${f.q}<span class="farr">+</span></div>
+    <div class="fa">${f.a}</div>
+  </div>`).join('');
+
+// ── COPY ─────────────────────────────────────────────────
+function cpN(n,id){navigator.clipboard.writeText(n).then(()=>{const b=document.getElementById(id);b.textContent='✓ تم النسخ';b.classList.add('c');toast('✓ تم نسخ الرقم','s');setTimeout(()=>{b.textContent='📋 نسخ الرقم';b.classList.remove('c')},2200)}).catch(()=>toast(n));}
+
+// ── TOAST ─────────────────────────────────────────────────
+function toast(m,t=''){const el=document.getElementById('toast');el.textContent=m;el.className=`toast show${t?' '+t:''}`;clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800);}
+
+// ── AI ────────────────────────────────────────────────────
+const KB=[
+  {k:/سعر|كم|بكام|مبلغ/i,a:'سعر الكورس 2500 جنيه مصري. لو عندك كود خصم خاص تقدر تطبقه على صفحة التسجيل. الكورس شامل Adobe CC مجاناً طول مدته.'},
+  {k:/خصم|كود/i,a:'الخصم متاح بكود خاص بس — يُوزَّع على طلاب محددين. تواصل معنا على الواتساب 01095822948 للاستفسار.'},
+  {k:/يبدأ|موعد|امتى|متى|يونيو/i,a:'الكورس يبدأ يوم الجمعة 6 يونيو 2025 على Zoom.'},
+  {k:/مدة|كم حصة|شهر|أسبوع/i,a:'مدة الكورس شهر كامل — 12 حصة بث مباشر، 3 حصص أسبوعياً، كل حصة 90 دقيقة.'},
+  {k:/مميزات|بيشمل|فيه/i,a:'الكورس يشمل: Adobe CC مجاناً، Premiere Pro كامل، After Effects، Color Grading، Freelancing كامل، دعم مستمر، تسجيلات الحصص وشهادة إتمام.'},
+  {k:/دفع|أدفع|فودافون|إنستا|تحويل/i,a:'الدفع على الرقم 01095822948 بفودافون كاش أو إنستا باي. بعد التحويل ارفع الإيصال على صفحة التسجيل register.html أو ابعته على الواتساب.'},
+  {k:/واتساب|تواصل|رقم/i,a:'رقم الواتساب: 01095822948 — للتواصل المباشر مع محمد رضا.'},
+  {k:/premiere|بريمير|مونتاج/i,a:'Premiere Pro هو برنامج المونتاج الرئيسي. ستتعلم كل شيء من الصفر — قطع، صوت، ألوان، مؤثرات وتصدير.'},
+  {k:/after effects|أفتر|موشن|motion/i,a:'After Effects في الكورس يغطي: Compositions، Keyframes، Dynamic Link، إنترو وLower Thirds متحركة وVFX أساسي.'},
+  {k:/color|كولور|ألوان|grading/i,a:'حصتان متخصصتان: Color Correction من الصفر وColor Grading السينمائي. ستتعلم Lumetri Color وبناء LUT خاص بك.'},
+  {k:/freelanc|عملاء|فريلانسر|دخل/i,a:'المرحلة الثالثة (4 حصص) مخصصة للـ Freelancing — Portfolio، Upwork، Fiverr، التسعير والتفاوض وتسليم المشاريع.'},
+  {k:/مبتدئ|خبرة|صفر|بداية/i,a:'الكورس للمبتدئين خالص. لا تحتاج أي خبرة — إذا كنت تعرف كيف تشغّل الكمبيوتر أنت مؤهل.'},
+  {k:/adobe|اشتراك|برنامج/i,a:'Adobe Creative Cloud على حساب الكورس طول مدته — Premiere وAfter Effects رسمياً ومجاناً.'},
+  {k:/ضمان|استرداد|رجوع/i,a:'ضمان استرداد كامل: لو حضرت أول حصتين ولم تجد القيمة — نعيد لك كامل المبلغ بلا شروط.'},
+  {k:/تسجيل|سجل|أسجل/i,a:'للتسجيل اضغط زرار "سجّل الآن" أو روح لصفحة register.html مباشرة.'},
+  {k:/شهادة/i,a:'بعد إتمام الكورس تحصل على شهادة باسمك تضيفها على LinkedIn وملف أعمالك.'},
+  {k:/جهاز|كمبيوتر|ضعيف/i,a:'ستتعلم تقنية Proxies لتشغيل Premiere بسلاسة حتى على الأجهزة المتواضعة.'},
+  {k:/zoom|منصة|بث/i,a:'الكورس على Zoom — بث مباشر 90 دقيقة. كل حصة تُسجَّل وترسل خلال 24 ساعة.'},
+  {k:/محمد رضا|zizo|مدرب/i,a:'محمد رضا — Zizo-VFX. مونتير محترف بخبرة +3 سنوات في الإنتاج الرقمي والإعلاني.'},
+];
+function getAns(q){for(const e of KB){if(e.k.test(q))return e.a}return null;}
+let aiOpen=false;
+function tAI(){
+  aiOpen=!aiOpen;
+  document.getElementById('aiPan').classList.toggle('open',aiOpen);
+  if(aiOpen){
+    document.getElementById('aiNtf').style.display='none';
+    const m=document.getElementById('aiMsgs');
+    if(!m.children.length)addMsg('أهلاً! أنا Zizo Assistant 👋 اسألني أي سؤال عن كورس Zero To Hero.','bot');
+    setTimeout(()=>document.getElementById('aiInp').focus(),280);
+  }
+}
+function addMsg(t,cls){const m=document.getElementById('aiMsgs');const d=document.createElement('div');d.className=`msg ${cls}`;d.textContent=t;m.appendChild(d);m.scrollTop=m.scrollHeight;return d;}
+function sAI(){const i=document.getElementById('aiInp');const q=i.value.trim();if(!q)return;i.value='';ask(q);}
+function ask(q){
+  if(!aiOpen)tAI();
+  addMsg(q,'user');document.getElementById('aiQ').style.display='none';
+  const ty=addMsg('...','bot');ty.style.color='var(--mt)';ty.style.fontStyle='italic';
+  setTimeout(()=>{ty.remove();const a=getAns(q);if(a){addMsg(a,'bot')}else{const d=addMsg('','bot');d.innerHTML=`تواصل مع محمد رضا مباشرة:<br><a href="https://wa.me/201095822948" target="_blank" style="color:var(--gg);font-weight:700">واتساب: 01095822948 ↗</a>`;};},550+Math.random()*400);
+}
+setTimeout(()=>{if(!aiOpen)document.getElementById('aiNtf').style.display='flex'},5000);
+
+// ── KEYBOARD ESC → أغلق المودال ──────────────────────────
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePlayer({target:{id:'vidModalClose'}});});
+
+// ── INIT — طبّق إعدادات الادمن فوراً ─────────────────────
+applySettings();
+renderGifts();
+
+// ── STORAGE EVENT — تحديث تلقائي لو الادمن غيّر حاجة ────
+window.addEventListener('storage', function(e){
+  if(!e.key) return;
+  var k = e.key;
+  if(k === 'zizo_testimonials')  loadTests();
+  if(k === 'zizo_site_settings') applySettings();
+  if(k === 'zizo_reg_count')     upSeats();
+});
+// في نهاية الـ Script
+renderGifts();
+async function showPlayer(id, title) {
+  var modal = document.getElementById('vidModal');
+  var player = document.getElementById('vidPlayer');
+  
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  
+  var videoName = title || 'الحصة ' + id;
+  
+  // Try local video first
+  try {
+    var localVideo = await videoDB_Client.get(id);
+    if (localVideo && localVideo.blob) {
+      var blobUrl = URL.createObjectURL(localVideo.blob);
+      
+      player.innerHTML = `
+        <div class="yts-wrap">
+          <video id="mainVideo" class="yts-video" src="${blobUrl}" playsinline webkit-playsinline
+            controlsList="nodownload" oncontextmenu="return false">
+          </video>
+          
+          <!-- Center Play -->
+          <div class="yts-center" onclick="togglePlay()" id="ytsCenter">
+            <div class="yts-pbtn">▶</div>
+          </div>
+          
+          <!-- Top Bar -->
+          <div class="yts-top">
+            <div class="yts-ttl">${videoName}</div>
+            <button class="yts-xbtn" onclick="closePlayer({target:{id:'vidModalClose'}})">✕</button>
+          </div>
+          
+          <!-- Bottom Controls -->
+          <div class="yts-btm">
+            <div class="yts-pro" onclick="seekVid(event)">
+              <div class="yts-fill" id="ytsFill"></div>
+            </div>
+            <div class="yts-btns">
+              <div class="yts-lft">
+                <button class="yts-btn" onclick="togglePlay()" id="ytsPlayBtn">⏯️</button>
+                <button class="yts-btn" onclick="skip(-10)">⏪</button>
+                <button class="yts-btn" onclick="skip(10)">⏩</button>
+                <button class="yts-btn" onclick="toggleMute()">🔊</button>
+                <span class="yts-time" id="ytsTime">0:00 / 0:00</span>
+              </div>
+              <div class="yts-rgt">
+                <button class="yts-qbtn" onclick="toggleQMenu()">🔧 <span id="ytsQual">HD</span></button>
+                <button class="yts-btn" onclick="toggleFull()">⛶</button>
+              </div>
+            </div>
+            <!-- Quality Menu -->
+            <div class="yts-qmenu" id="ytsQMenu">
+              <button class="yts-qopt active" onclick="setQual('1080p','HD')">1080p HD</button>
+              <button class="yts-qopt" onclick="setQual('720p','HD')">720p</button>
+              <button class="yts-qopt" onclick="setQual('480p','SD')">480p</button>
+              <button class="yts-qopt" onclick="setQual('360p','SD')">360p</button>
+            </div>
+          </div>
+          
+        </div>
+      `;
+      
+      // Setup video events
+      var vid = document.getElementById('mainVideo');
+      var fill = document.getElementById('ytsFill');
+      var time = document.getElementById('ytsTime');
+      var center = document.getElementById('ytsCenter');
+      
+      vid.addEventListener('timeupdate', function() {
+        if (!vid.duration) return;
+        var pct = (vid.currentTime / vid.duration) * 100;
+        fill.style.width = pct + '%';
+        time.textContent = fmt(vid.currentTime) + ' / ' + fmt(vid.duration);
+      });
+      
+      vid.addEventListener('play', function() {
+        center.style.opacity = '0';
+        center.style.pointerEvents = 'none';
+      });
+      
+      vid.addEventListener('pause', function() {
+        center.style.opacity = '1';
+        center.style.pointerEvents = 'auto';
+      });
+      
+      return;
+    }
+  } catch(e) {}
+  
+  // Try YouTube
+  var sessVids = DB.get('sessions', {});
+  var url = sessVids[id];
+  if (url) {
+    var embedUrl = getEmbedUrl(url);
+    player.innerHTML = '<iframe src="' + embedUrl + '" style="width:100%;height:100%;border:none" allowfullscreen allow="autoplay"></iframe>';
+    return;
+  }
+  
+  player.innerHTML = '<div style="color:#888;font-size:20px;text-align:center;padding:60px">🎬 جاري التحضير...</div>';
+}
+// إزالة نص ESC من الهيرو
+document.querySelectorAll('[style*="ESC"], [style*="إغلاق"]').forEach(el => {
+  if(el.textContent.includes('ESC') || el.textContent.includes('إغلاق')) {
+    el.style.display = 'none';
+  }
+});
+</script>
+
+<!-- Video Modal - نظيف 100% -->
+<div id="vidModal" onclick="closePlayer(event)"
+  style="display:none;position:fixed;inset:0;z-index:9999;background:#000;align-items:center;justify-content:center">
+  
+  <!-- Header + Close Button -->
+  <div style="position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(180deg,rgba(0,0,0,.85),transparent);z-index:10">
+    <div style="font-size:15px;font-weight:700;color:#fff" id="vidModalTitle">الحصة</div>
+    <button onclick="closePlayer({target:{id:'vidModalClose'}})" 
+      style="background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;font-weight:700">
+      ✕
+    </button>
+  </div>
+  
+  <!-- Video Player -->
+  <div id="vidPlayer" style="width:100%;max-width:1200px;aspect-ratio:16/9;background:#000">
+  </div>
+  
+</div>
+  
+ 
+<!-- 🎁 GIFTS MODAL -->
+<div id="giftModal" onclick="closeGiftModal(event)" 
+  style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;flex-direction:column;padding:20px">
+  <div style="width:100%;max-width:480px;background:#0d0d14;border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06)">
+      <div style="font-size:16px;font-weight:700;color:#fff">🎁 <span id="giftModalTitle">تحميل</span></div>
+      <button onclick="closeGiftModal()" style="background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:14px">✕</button>
+    </div>
+    <div id="giftModalBody" style="padding:28px;text-align:center;min-height:200px">
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حسابي | Zero To Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9962A;--gold-g:#E8B84B;--gold-d:#8A6415;--bg:#070A12;--bg2:#0B1019;--bg3:#101622;--bg4:#151C2A;--text:#EEF0F6;--muted:#6B7899;--muted2:#4A5270;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);--r:12px;--green:#059669;--green-g:#10B981;--red:#DC2626;--blue:#1D4ED8;--blue-g:#3B82F6;}
+*{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;min-height:100vh;cursor:none}
+#cur{position:fixed;width:8px;height:8px;background:var(--gold-g);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur2{position:fixed;width:28px;height:28px;border:1px solid rgba(232,184,75,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .07s linear}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(7,10,18,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 5%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;background:linear-gradient(135deg,var(--gold-g),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:none}
+.nav-r{display:flex;align-items:center;gap:10px}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:30px;padding:6px 14px 6px 8px}
+.user-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.user-name{font-size:12px;font-weight:700;color:var(--text)}
+.logout-btn{background:rgba(220,38,38,.08);border:1px solid rgba(239,68,68,.15);color:#FCA5A5;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;padding:7px 13px;border-radius:20px;cursor:none;transition:all .2s}
+.logout-btn:hover{background:rgba(220,38,38,.15)}
+.home-btn{background:transparent;border:1px solid var(--border);color:var(--muted2);font-family:'Cairo',sans-serif;font-size:11px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:none;transition:all .2s;text-decoration:none}
+.home-btn:hover{border-color:var(--border2);color:var(--text)}
+
+/* HERO */
+.dash-hero{background:linear-gradient(135deg,rgba(29,78,216,.1),rgba(201,150,42,.06));border-bottom:1px solid var(--border);padding:32px 5%}
+.dh-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.dh-greet{font-size:24px;font-weight:900;color:var(--text)}
+.dh-greet span{background:linear-gradient(135deg,var(--gold-g),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dh-sub{font-size:13px;color:var(--muted2);margin-top:4px}
+.dh-status{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:30px;padding:8px 16px}
+.status-indicator{width:8px;height:8px;border-radius:50%;animation:blink 1.6s ease infinite}
+.si-active{background:var(--green-g);box-shadow:0 0 8px var(--green-g)}
+.si-pending{background:#F59E0B;box-shadow:0 0 8px #F59E0B}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.dh-stat-text{font-size:12px;font-weight:700}
+
+/* MAIN LAYOUT */
+.dash-main{max-width:1100px;margin:0 auto;padding:28px 5%;display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:700;color:var(--text)}
+.card-sub{font-size:11px;color:var(--muted2);margin-top:1px}
+.card-body{padding:16px 18px}
+
+/* STATUS CARD */
+.status-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px 18px;margin-bottom:16px}
+.sc-pending{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04)}
+.sc-active{border-color:rgba(5,150,105,.3);background:rgba(5,150,105,.04)}
+.sc-icon{font-size:36px;margin-bottom:10px}
+.sc-title{font-size:16px;font-weight:900;color:var(--text);margin-bottom:5px}
+.sc-sub{font-size:12px;color:var(--muted2);line-height:1.65;margin-bottom:14px}
+.sc-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,#16A34A,#15803D);color:#fff;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;padding:11px 22px;border-radius:30px;text-decoration:none;cursor:none;box-shadow:0 4px 16px rgba(22,163,74,.3)}
+
+/* SESSIONS */
+.sess-grid{display:flex;flex-direction:column;gap:8px}
+.sess-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;transition:border-color .2s,transform .2s;cursor:none}
+.sess-item:hover{border-color:var(--border2);transform:translateX(-2px)}
+.sess-item.locked{opacity:.5}
+.sess-num{width:30px;height:30px;border-radius:7px;background:rgba(201,150,42,.1);border:1px solid rgba(201,150,42,.18);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0}
+.sess-info{flex:1}
+.sess-t{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:3px}
+.sess-topics{display:flex;flex-wrap:wrap;gap:4px}
+.sess-tp{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:1px 7px;font-size:10px;color:var(--muted2)}
+.sess-action{flex-shrink:0}
+.watch-btn{background:rgba(201,150,42,.1);border:1px solid rgba(201,150,42,.2);color:var(--gold-g);font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;cursor:none;transition:all .2s;white-space:nowrap}
+.watch-btn:hover{background:rgba(201,150,42,.18)}
+.lock-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted2);font-size:11px;padding:6px 12px;border-radius:8px;cursor:not-allowed}
+.free-tag{background:rgba(5,150,105,.12);border:1px solid rgba(16,185,129,.2);color:var(--green-g);border-radius:5px;padding:1px 7px;font-size:9px;font-weight:700;margin-left:6px}
+
+/* VIDEO PLAYER */
+.video-modal{position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(16px);z-index:900;display:none;align-items:center;justify-content:center;padding:16px}
+.video-modal.show{display:flex}
+.vm-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:800px;overflow:hidden;animation:mIn .3s ease}
+@keyframes mIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.vm-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.vm-title{font-size:14px;font-weight:700;color:var(--text)}
+.vm-x{background:var(--bg3);border:1px solid var(--border);color:var(--muted2);width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:none;transition:color .2s}
+.vm-x:hover{color:var(--text)}
+.vm-player{width:100%;aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:13px}
+.vm-player video{width:100%;height:100%;object-fit:contain}
+
+/* SIDEBAR CARDS */
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.ic-head{padding:14px 16px;border-bottom:1px solid var(--border)}
+.ic-title{font-size:13px;font-weight:700;color:var(--text)}
+.ic-body{padding:14px 16px}
+.detail-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.detail-row:last-child{border-bottom:none}
+.dr-lbl{color:var(--muted2);font-weight:600}
+.dr-val{color:var(--text);font-weight:700}
+
+/* PROGRESS */
+.prog-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin:8px 0}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold-g));border-radius:3px;transition:width 1s ease}
+.prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted2)}
+
+/* COUNTDOWN MINI */
+.cd-mini{display:flex;gap:6px;margin-top:10px}
+.cdm{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.18);border-radius:8px;padding:8px 10px;flex:1;text-align:center}
+.cdm-n{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#F87171;line-height:1}
+.cdm-l{font-size:9px;color:var(--muted2);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+
+/* CERTIFICATE */
+.cert-card{background:linear-gradient(135deg,rgba(201,150,42,.12),rgba(201,150,42,.04));border:1px solid rgba(201,150,42,.3);border-radius:var(--r);padding:20px 16px;text-align:center;margin-bottom:14px}
+.cert-icon{font-size:36px;margin-bottom:8px}
+.cert-title{font-size:14px;font-weight:900;color:var(--text);margin-bottom:5px}
+.cert-sub{font-size:11px;color:var(--muted2);line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--bg3);border:1px solid rgba(16,185,129,.35);border-radius:9px;padding:10px 18px;font-size:12px;font-weight:600;color:var(--green-g);z-index:2000;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+@media(max-width:768px){.dash-main{grid-template-columns:1fr}.nav-r .home-btn{display:none}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur2"></div>
+<div class="toast" id="toast"></div>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+  <div class="vm-box">
+    <div class="vm-head">
+      <div class="vm-title" id="vmTitle">عنوان الحصة</div>
+      <div class="vm-x" onclick="closeVideo()">✕</div>
+    </div>
+    <div class="vm-player" id="vmPlayer">
+      <div>الفيديو مش متاح لسه — هيتبعتلك رابط قريباً</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="location.href='index.html'">ZIZO-VFX</div>
+  <div class="nav-r">
+    <a class="home-btn" href="index.html">← الموقع</a>
+    <div class="user-chip">
+      <div class="user-av">🎬</div>
+      <div class="user-name" id="navName">طالب</div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">خروج</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="dash-hero">
+  <div class="dh-inner">
+    <div>
+      <div class="dh-greet">أهلاً، <span id="heroName">طالب</span> 👋</div>
+      <div class="dh-sub" id="heroSub">مرحباً بيك في كورس Zero To Hero</div>
+    </div>
+    <div class="dh-status">
+      <div class="status-indicator" id="statusDot"></div>
+      <div class="dh-stat-text" id="statusText">جاري التحقق...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="dash-main">
+  <!-- LEFT -->
+  <div>
+    <!-- STATUS ALERT -->
+    <div id="statusCard"></div>
+
+    <!-- SESSIONS -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">محتوى الكورس — 12 حصة</div>
+          <div class="card-sub">Zero To Hero · Premiere Pro + After Effects</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted2)" id="progText">0 / 12</div>
+      </div>
+      <div style="padding:12px 18px;border-bottom:1px solid var(--border)">
+        <div class="prog-label"><span>التقدم</span><span id="progPct">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      </div>
+      <div class="card-body">
+        <div class="sess-grid" id="sessGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <div>
+    <!-- COURSE INFO -->
+    <div class="info-card" style="margin-bottom:14px">
+      <div class="ic-head"><div class="ic-title">📋 معلومات الكورس</div></div>
+      <div class="ic-body">
+        <div class="detail-row"><span class="dr-lbl">الكورس</span><span class="dr-val">Zero To Hero</span></div>
+        <div class="detail-row"><span class="dr-lbl">المدرب</span><span class="dr-val">محمد رضا — Zizo-VFX</span></div>
+        <div class="detail-row"><span class="dr-lbl">تاريخ البداية</span><span class="dr-val">6 يونيو 2025</span></div>
+        <div class="detail-row"><span class="dr-lbl">عدد الحصص</span><span class="dr-val">12 حصة</span></div>
+        <div class="detail-row"><span class="dr-lbl">المدة</span><span class="dr-val">شهر كامل</span></div>
+        <div class="detail-row"><span class="dr-lbl">حالة الاشتراك</span><div id="subStatus"></div></div>
+      </div>
+    </div>
+
+    <!-- COUNTDOWN -->
+    <div class="info-card">
+      <div class="ic-head"><div class="ic-title">⏱️ الوقت لبداية الكورس</div></div>
+      <div class="ic-body">
+        <div style="font-size:11px;color:var(--muted2);margin-bottom:8px;text-align:center">يبدأ 6 يونيو 2025</div>
+        <div class="cd-mini">
+          <div class="cdm"><div class="cdm-n" id="csd">--</div><div class="cdm-l">يوم</div></div>
+          <div class="cdm"><div class="cdm-n" id="csh">--</div><div class="cdm-l">ساعة</div></div>
+          <div class="cdm"><div class="cdm-n" id="csm">--</div><div class="cdm-l">دقيقة</div></div>
+          <div class="cdm"><div class="cdm-n" id="css">--</div><div class="cdm-l">ثانية</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATE -->
+    <div class="cert-card">
+      <div class="cert-icon">🏅</div>
+      <div class="cert-title">شهادة الإتمام</div>
+      <div class="cert-sub">بعد ما تخلّص الكورس كامل، هتاخد شهادة باسمك تضيفها على LinkedIn.</div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="info-card">
+      <div class="ic-head"><div class="ic-title">💬 تواصل مع المدرب</div></div>
+      <div class="ic-body">
+        <div style="font-size:12px;color:var(--muted2);margin-bottom:12px;line-height:1.65">لو عندك أي سؤال أو محتاج مساعدة — أنا هنا!</div>
+        <a href="https://wa.me/201095822948?text=السلام عليكم محمد 👋 أنا طالب في Zero To Hero وعندي سؤال:" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#16A34A,#15803D);color:#fff;font-weight:900;font-size:13px;font-family:'Cairo',sans-serif;padding:11px;border-radius:9px;text-decoration:none;cursor:none">
+          💬 واتساب المدرب
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CURSOR ──
+const C=document.getElementById('cur'),C2=document.getElementById('cur2');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;C.style.left=mx+'px';C.style.top=my+'px'});
+(function a(){cx+=(mx-cx)*.1;cy+=(my-cy)*.1;C2.style.left=cx+'px';C2.style.top=cy+'px';requestAnimationFrame(a)})();
+
+// ── AUTH ──
+const user=JSON.parse(localStorage.getItem('zth_user')||'null');
+if(!user){location.href='login.html'}
+if(user?.role==='admin'){location.href='admin.html'}
+
+const name=user?.name||user?.email?.split('@')[0]||'طالب';
+document.getElementById('navName').textContent=name;
+document.getElementById('heroName').textContent=name;
+
+// ── STATUS ──
+const regs=JSON.parse(localStorage.getItem('zth_registrations')||'[]');
+const myReg=regs.find(r=>r.email===user?.email||r.phone===user?.phone);
+const status=myReg?.status||'pending';
+
+const dot=document.getElementById('statusDot');
+const stText=document.getElementById('statusText');
+const subSt=document.getElementById('subStatus');
+const stCard=document.getElementById('statusCard');
+
+if(status==='approved'){
+  dot.className='status-indicator si-active';
+  stText.textContent='✓ مشترك ومفعّل';
+  stText.style.color='var(--green-g)';
+  subSt.innerHTML='<span style="background:rgba(5,150,105,.12);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:2px 9px;font-size:10px;font-weight:700;color:var(--green-g)">✓ مفعّل</span>';
+  document.getElementById('heroSub').textContent='حسابك مفعّل — تقدر توصل لكل محتوى الكورس.';
+  stCard.innerHTML='';
+} else {
+  dot.className='status-indicator si-pending';
+  stText.textContent='⏳ في انتظار تأكيد الدفع';
+  stText.style.color='#FCD34D';
+  subSt.innerHTML='<span style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:2px 9px;font-size:10px;font-weight:700;color:#FCD34D">⏳ انتظار</span>';
+  document.getElementById('heroSub').textContent='بعد ما الادمن يأكد دفعك، هيتفعّل كل المحتوى.';
+  stCard.innerHTML=`
+    <div class="status-card sc-pending" style="margin-bottom:16px">
+      <div class="sc-icon">⏳</div>
+      <div class="sc-title">جاري مراجعة دفعك</div>
+      <div class="sc-sub">ابعت صورة إيصال الدفع على الواتساب عشان نأكدلك في أسرع وقت. عادةً بيتم التأكيد خلال ساعات قليلة.</div>
+      <a class="sc-btn" href="https://wa.me/201095822948?text=السلام عليكم محمد 👋 اسمي ${name} — بعتلك الإيصال عشان تأكدلي التسجيل في Zero To Hero 🎬" target="_blank">💬 ابعت الإيصال دلوقتي</a>
+    </div>`;
+}
+
+// ── SESSIONS ──
+const sessions=[
+  {id:1,t:'مرحباً بـ Premiere — البداية الصح',topics:['الواجهة','New Project','Sequence'],free:true},
+  {id:2,t:'الاستيراد والقطع الاحترافي',topics:['Import','Razor','J-Cut & L-Cut'],free:false},
+  {id:3,t:'الصوت — الجزء المنسي',topics:['Audio Levels','Denoise','LUFS'],free:false},
+  {id:4,t:'Transitions وEffects والـ Export',topics:['Speed Ramp','H.264','Encoder'],free:false},
+  {id:5,t:'Color Correction من الصفر',topics:['Lumetri','Scopes','White Balance'],free:false},
+  {id:6,t:'Color Grading سينمائي',topics:['Cinematic Look','LOG','LUT مخصص'],free:false},
+  {id:7,t:'Workflow احترافي',topics:['Proxies 4K','Multi-Cam','AI Tools'],free:false},
+  {id:8,t:'After Effects — Motion Graphics',topics:['Compositions','Keyframes','Dynamic Link'],free:false},
+  {id:9,t:'VFX أساسي — Green Screen',topics:['Chroma Key','Motion Track','Masking'],free:false},
+  {id:10,t:'Portfolio يجيبلك شغل',topics:['Demo Reel','Behance','Bio احترافي'],free:false},
+  {id:11,t:'جيب أول عميل',topics:['Upwork','Fiverr','Proposal'],free:false},
+  {id:12,t:'التسعير والعقود والـ Business',topics:['تسعير','تفاوض','خطة 30 يوم'],free:false},
+];
+
+const watched=JSON.parse(localStorage.getItem('zth_watched_'+user?.email)||'[]');
+const vidStore=JSON.parse(localStorage.getItem('zth_video_urls')||'{}');
+
+function renderSessions(){
+  const sg=document.getElementById('sessGrid');
+  const canAccess=status==='approved';
+  sg.innerHTML=sessions.map(s=>{
+    const accessible=s.free||canAccess;
+    const isWatched=watched.includes(s.id);
+    return `
+      <div class="sess-item${!accessible?' locked':''}">
+        <div class="sess-num" style="${isWatched?'background:rgba(5,150,105,.15);border-color:rgba(16,185,129,.3);color:var(--green-g)':''}">
+          ${isWatched?'✓':s.id}
+        </div>
+        <div class="sess-info">
+          <div class="sess-t">
+            ${s.free?`<span class="free-tag">مجاني</span>`:''}${s.t}
+          </div>
+          <div class="sess-topics">${s.topics.map(t=>`<span class="sess-tp">${t}</span>`).join('')}</div>
+        </div>
+        <div class="sess-action">
+          ${accessible
+            ?`<button class="watch-btn" onclick="watchSess(${s.id},'${s.t}')">▶ شاهد</button>`
+            :`<div class="lock-btn">🔒</div>`}
+        </div>
+      </div>`;
+  }).join('');
+  // progress
+  const wp=watched.length;
+  document.getElementById('progText').textContent=`${wp} / 12`;
+  document.getElementById('progPct').textContent=`${Math.round(wp/12*100)}%`;
+  setTimeout(()=>{document.getElementById('progFill').style.width=(wp/12*100)+'%'},300);
+}
+renderSessions();
+
+function watchSess(id,title){
+  document.getElementById('vmTitle').textContent=`الحصة ${id}: ${title}`;
+  const player=document.getElementById('vmPlayer');
+  const vidUrl=vidStore[id];
+  if(vidUrl){player.innerHTML=`<video controls autoplay src="${vidUrl}"></video>`;}
+  else{player.innerHTML=`<div style="text-align:center;padding:40px"><div style="font-size:36px;margin-bottom:12px">⏰</div><div style="font-size:14px;color:var(--text);font-weight:700;margin-bottom:6px">الحصة ${id}: ${title}</div><div style="font-size:12px;color:var(--muted2);max-width:300px;margin:0 auto;line-height:1.7">الفيديو هيكون متاح قريباً. هتوصلك رسالة على الواتساب لما تترفع.</div></div>`;}
+  document.getElementById('videoModal').classList.add('show');
+  // Mark watched
+  if(!watched.includes(id)){watched.push(id);localStorage.setItem('zth_watched_'+user?.email,JSON.stringify(watched));renderSessions();}
+}
+function closeVideo(){document.getElementById('videoModal').classList.remove('show');document.getElementById('vmPlayer').innerHTML='<div>الفيديو مش متاح لسه</div>';}
+document.getElementById('videoModal').addEventListener('click',function(e){if(e.target===this)closeVideo();});
+
+// ── COUNTDOWN ──
+const START=new Date('2025-06-06T00:00:00');
+function updCD(){
+  const diff=START-new Date();
+  if(diff<=0){['csd','csh','csm','css'].forEach(id=>document.getElementById(id).textContent='00');return}
+  const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
+  document.getElementById('csd').textContent=String(d).padStart(2,'0');
+  document.getElementById('csh').textContent=String(h).padStart(2,'0');
+  document.getElementById('csm').textContent=String(m).padStart(2,'0');
+  document.getElementById('css').textContent=String(s).padStart(2,'0');
+}
+updCD();setInterval(updCD,1000);
+
+// ── LOGOUT ──
+function doLogout(){localStorage.removeItem('zth_user');location.href='login.html';}
+
+// ── TOAST ──
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body>
+</html>
